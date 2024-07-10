@@ -1,0 +1,73 @@
+<!-- templates/myApp/job_search_results.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Search Results</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background-color: #5A7D7C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .results-wrapper {
+            background-color: #F5EEDC;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        .results-wrapper h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .job-list {
+            list-style-type: none;
+            padding: 0;
+            text-align: left;
+        }
+        .job-list li {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .job-list li:hover {
+            background-color: #F9F9F9;
+        }
+    </style>
+</head>
+<body>
+    <div class="results-wrapper">
+        <h2>Job Search Results</h2>
+
+        <form method="get">
+            {% csrf_token %}
+            <input type="text" name="query" class="form-control" placeholder="Search Jobs" required>
+            <button type="submit" class="btn">Search</button>
+        </form>
+
+        <ul class="job-list">
+            {% for job in results %}
+                <li>
+                    <h3>{{ job.title }}</h3>
+                    <p>{{ job.description }}</p>
+                    <p><strong>Location:</strong> {{ job.location }}</p>
+                </li>
+            {% empty %}
+                <li>No jobs found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
