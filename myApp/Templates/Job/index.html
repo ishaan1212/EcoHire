@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Listings</title>
+</head>
+<body>
+    <h1>Environment-Friendly Job Listings</h1>
+    <ul>
+        {% for job in jobs %}
+            <li><a href="{% url 'jobs:job_detail' job.id %}">{{ job.title }}</a> at {{ job.company }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
