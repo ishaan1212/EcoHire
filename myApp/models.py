@@ -1,10 +1,11 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.db import models
 from django.contrib.auth.models import User
 
+from django import forms
+
 
 # Create your models here.
-
-# Ishan Model Start
 class Company(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=50)
@@ -13,6 +14,28 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
+class Job(models.Model):
+    JOB_TYPE_CHOICES = [
+        ('Full Time', 'Full Time'),
+        ('Part Time', 'Part Time'),
+        ('Contract', 'Contract'),
+        ('Internship', 'Internship'),
+        ('Freelance', 'Freelance'),
+    ]
+
+    title = models.CharField(max_length=100)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='Full Time')
+    location = models.CharField(max_length=50)
+    description = models.TextField()
+    requirements = models.TextField()
+    responsibilities = models.TextField()
+    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    published_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 class Application(models.Model):
     STATUS_CHOICES = [
@@ -31,3 +54,17 @@ class Application(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.job.title}"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username

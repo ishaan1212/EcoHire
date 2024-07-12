@@ -1,0 +1,21 @@
+
+{% extends 'myApp/base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h2>User Profile</h2>
+<div>
+    {% if  profile_form.instance.profile_pic %}
+        <img src="{{  profile_form.instance.profile_pic.url }}" alt="Profile Picture" class="profile-pic">
+    {% else %}
+        <p>No profile picture found.</p>
+    {% endif %}
+</div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ profile_form.as_p }}
+        <button type="submit" class="btn btn-primary">Update Profile</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,297 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+header {
+    background-color: #4caf50; /* Green background for header */
+    color: #fff; /* White text */
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+nav {
+    float: right;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Hero Section Styles */
+.hero {
+    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.hero h2 {
+    font-size: 48px;
+    margin: 0 0 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin: 0 0 30px;
+}
+
+.hero form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero input, .hero select, .hero button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.hero input, .hero select {
+    background: rgba(255, 255, 255, 0.8); /* White background */
+    color: #333;
+}
+
+.hero button {
+    background: #4caf50; /* Green button */
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.hero button:hover {
+    background: #45a049; /* Darker green on hover */
+}
+
+/* Footer Styles */
+footer {
+    background-color: #ddd; /* Light gray background */
+    color: #333; /* Dark gray text */
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    margin: 10px;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer-column address {
+    font-style: normal;
+    line-height: 1.5;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    nav {
+        float: none;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-column {
+        text-align: center;
+    }
+}
+.footer-logo {
+    max-width: 200px; /* Adjust the maximum width of the logo */
+    height: auto; /* Ensures the logo scales proportionally */
+}
+/* Add this to your existing styles or create a new CSS file */
+.signup-dialog {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.signup-dialog h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+h2 {
+    color: #555; /* Dark gray heading */
+    margin-bottom: 20px;
+}
+
+/* Profile Styles */
+/* styles.css */
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.profile-picture {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 150px; /* Adjust size as needed */
+    height: 150px; /* Adjust size as needed */
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover; /* Ensures the image covers the container */
+}
+
+form {
+    margin-top: 20px;
+}
+
+form p {
+    margin-bottom: 10px;
+}
+
+form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input[type="text"],
+form input[type="email"],
+form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form input[type="file"] {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+form button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+
