@@ -1,9 +1,16 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
-from myApp.views import IndexView, JobDetailView
-
+from . import views
 app_name = 'myApp'
-
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-    path('<int:pk>/', JobDetailView.as_view(), name='job_detail'),
-]
+    path('', views.home, name='home'),
+    path('jobs/', views.jobs, name='jobs'),
+    path('about_us/', views.about_us, name='about_us'),
+    path('profile/', views.profile, name='profile'),
+    path('register/', views.register, name='register'),
+    path('logout/', views.logout_view, name='logout'),
+    # Add more paths for other pages as needed
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

@@ -1,0 +1,20 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>The Easiest Way to Get Your New Job</h2>
+        <p>Find jobs, create trackable resumes and enrich your applications.</p>
+        <form>
+            <input type="text" placeholder="Keywords">
+            <input type="text" placeholder="Location">
+            <select>
+                <option>Choose a category...</option>
+            </select>
+            <button type="submit">Search Jobs</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

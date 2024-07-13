@@ -1,46 +1,70 @@
+from django.contrib.auth.forms import UserCreationForm
 from django.db import models
-from django.utils.text import slugify
 from django.contrib.auth.models import User
 
-# Define job type choices
-JOB_TYPE = [
-    ('Full Time', 'Full Time'),
-    ('Part Time', 'Part Time'),
-    ('Freelance', 'Freelance'),
-    ('Internship', 'Internship'),
-]
+from django import forms
 
-# Image upload function
-def image_upload(instance, filename):
-    return f'jobs/{instance.id}/{filename}'
 
-# Category Model
-class Category(models.Model):
+# Create your models here.
+class Company(models.Model):
     name = models.CharField(max_length=100)
+    location = models.CharField(max_length=50)
+    website = models.URLField()
+    description = models.TextField()
 
     def __str__(self):
         return self.name
 
-# Job Model
 class Job(models.Model):
+    JOB_TYPE_CHOICES = [
+        ('Full Time', 'Full Time'),
+        ('Part Time', 'Part Time'),
+        ('Contract', 'Contract'),
+        ('Internship', 'Internship'),
+        ('Freelance', 'Freelance'),
+    ]
+
     title = models.CharField(max_length=100)
-    job_type = models.CharField(max_length=15, choices=JOB_TYPE)
-    description = models.TextField(max_length=1000)
-    published_at = models.DateTimeField(auto_now=True)
-    vacancy = models.IntegerField(default=1)
-    salary = models.IntegerField(default=0)
-    experience = models.IntegerField(default=1)
-    image = models.ImageField(upload_to=image_upload)
-    slug = models.SlugField(blank=True, null=True)
-
-    # Relations
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
-    owner = models.ForeignKey(User, related_name='job_owner', on_delete=models.CASCADE)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Job, self).save(*args, **kwgargs)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='Full Time')
+    location = models.CharField(max_length=50)
+    description = models.TextField()
+    requirements = models.TextField()
+    responsibilities = models.TextField()
+    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    published_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+class Application(models.Model):
+    STATUS_CHOICES = [
+        ('P', 'Pending'),
+        ('A', 'Accepted'),
+        ('R', 'Rejected'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    resume = models.FileField(upload_to='resumes/')
+    cover_letter = models.FileField(upload_to='cover_letters/', blank=True, null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
+    applied_on = models.DateTimeField(auto_now_add=True)   #the auto_now_add field explains that when a new instance is created, the time is switched to current date time
+
+    def __str__(self):
+        return f"{self.user.username} - {self.job.title}"
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
