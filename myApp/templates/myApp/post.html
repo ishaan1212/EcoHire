@@ -1,0 +1,18 @@
+{% extends 'myApp/base.html' %}
+{% load static %}  <!-- Ensure to load the static template tag -->
+
+{% block title %}Post a Job{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Post a Job</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Post Job</button>
+    </form>
+</div>
+{% endblock %}
+
+<!-- Ensure the link to your CSS file is correctly placed -->
+<link rel="stylesheet" type="text/css" href="{% static 'myApp/css/style.css' %}">

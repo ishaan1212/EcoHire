@@ -15,8 +15,8 @@ body {
 
 /* Header Styles */
 header {
-    background-color: #4caf50; /* Green background for header */
-    color: #fff; /* White text */
+    background-color: #4caf50;
+    color: #fff;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
 }
@@ -72,7 +72,9 @@ nav ul li a {
     margin: 0 auto;
 }
 
-.hero input, .hero select, .hero button {
+.hero input,
+.hero select,
+.hero button {
     display: block;
     width: 100%;
     padding: 15px;
@@ -81,26 +83,27 @@ nav ul li a {
     border-radius: 5px;
 }
 
-.hero input, .hero select {
-    background: rgba(255, 255, 255, 0.8); /* White background */
+.hero input,
+.hero select {
+    background: rgba(255, 255, 255, 0.8);
     color: #333;
 }
 
 .hero button {
-    background: #4caf50; /* Green button */
+    background: #4caf50;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
 }
 
 .hero button:hover {
-    background: #45a049; /* Darker green on hover */
+    background: #45a049;
 }
 
 /* Footer Styles */
 footer {
-    background-color: #ddd; /* Light gray background */
-    color: #333; /* Dark gray text */
+    background-color: #ddd;
+    color: #333;
     padding: 20px 0;
     text-align: center;
 }
@@ -166,11 +169,8 @@ footer {
         text-align: center;
     }
 }
-.footer-logo {
-    max-width: 200px; /* Adjust the maximum width of the logo */
-    height: auto; /* Ensures the logo scales proportionally */
-}
-/* Add this to your existing styles or create a new CSS file */
+
+/* Signup Dialog */
 .signup-dialog {
     max-width: 400px;
     margin: 0 auto;
@@ -178,7 +178,7 @@ footer {
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .signup-dialog h2 {
@@ -213,14 +213,7 @@ footer {
     background-color: #45a049;
 }
 
-h2 {
-    color: #555; /* Dark gray heading */
-    margin-bottom: 20px;
-}
-
 /* Profile Styles */
-/* styles.css */
-
 .form-container {
     max-width: 600px;
     margin: 0 auto;
@@ -231,28 +224,27 @@ h2 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
 .profile-picture {
     text-align: center;
     margin-bottom: 20px;
 }
 
 .profile-pic {
-    width: 150px; /* Adjust size as needed */
-    height: 150px; /* Adjust size as needed */
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     border: 2px solid #ccc;
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-    object-fit: cover; /* Ensures the image covers the container */
+    object-fit: cover;
 }
 
 form {
-    margin-top: 20px;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 form p {
@@ -293,5 +285,3 @@ form button {
 form button:hover {
     background-color: #0056b3;
 }
-
-

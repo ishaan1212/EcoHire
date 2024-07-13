@@ -3,6 +3,46 @@
 {% block title %}Jobs - EcoHire{% endblock %}
 
 {% block content %}
-<h1>Available Jobs</h1>
-<!-- Display jobs dynamically here -->
+<div class="container mt-5">
+    <h1 class="mb-4">Available Jobs</h1>
+    
+    <!-- Job Type Filter Form -->
+    <form method="get" class="mb-3" id="jobFilterForm">
+        <div class="form-group">
+            <label for="job_type">What kind of job are you looking for:</label>
+            <select class="form-control" id="job_type" name="job_type">
+                <option value="">All</option>
+                <option value="Full Time"{% if request.GET.job_type == "Full Time" %} selected{% endif %}>Full Time</option>
+                <option value="Part Time"{% if request.GET.job_type == "Part Time" %} selected{% endif %}>Part Time</option>
+                <option value="Contract"{% if request.GET.job_type == "Contract" %} selected{% endif %}>Contract</option>
+                <option value="Internship"{% if request.GET.job_type == "Internship" %} selected{% endif %}>Internship</option>
+                <option value="Freelance"{% if request.GET.job_type == "Freelance" %} selected{% endif %}>Freelance</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+
+    {% if jobs_lists %}
+        <div class="row">
+            {% for job in jobs_lists %}
+                {% if not request.GET.job_type or request.GET.job_type == job.job_type %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="card-title">{{ job.title }}</h3>
+                                <p class="card-text">{{ job.description }}</p>
+                                <p class="card-text">{{ job.job_type }}</p>
+                                <p class="card-text"><small class="text-muted">Posted on: {{ job.published_at }}</small></p>
+                                <a href="#" class="btn btn-primary">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No jobs available.</p>
+    {% endif %}
+</div>
+    
 {% endblock %}

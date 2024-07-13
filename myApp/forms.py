@@ -8,12 +8,15 @@ from .models import Job, Company, Application, Profile
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
-        fields = ['title', 'company', 'job_type', 'location', 'description', 'requirements', 'responsibilities', 'salary']
+        fields = ['title', 'company', 'job_type', 'location', 'description', 'requirements', 'responsibilities',
+                  'salary']
+
 
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['name', 'location', 'website', 'description']
+
 
 class ApplicationForm(forms.ModelForm):
     class Meta:
@@ -34,9 +37,16 @@ class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
 
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+
+class JobPostForm(forms.ModelForm):
+    class Meta:
+        model = Job
+        fields = ['title', 'company', 'job_type', 'location', 'description', 'requirements', 'responsibilities',
+                  'salary']
