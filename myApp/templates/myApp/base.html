@@ -18,7 +18,8 @@
             <nav>
                 <ul>
                     <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
-                    <li><a href="#">Post A Job</a></li>
+                    <li><a href="{% url 'myApp:Addjobs' %}">Post A Job</a></li>
+                    <li><a href="{% url 'myApp:AddCompany' %}">Add Company</a></li>
                     <li><a href="#">About Us</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'myApp:profile' %}">Profile</a></li>

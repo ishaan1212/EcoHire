@@ -1,38 +1,65 @@
-{% extends 'base.html' %}
-{% load bootstrap4 %}
+{% extends 'myApp/base.html' %}
+{% load static %}
+{% block title %}Add Job - EcoHire{% endblock %}
 
-{% block body %}
-<!-- bradcam_area  -->
-<div class="bradcam_area bradcam_bg_1">
+{% block content %}
+<section class="hero">
     <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="bradcam_text">
-                    <h3>{{job}}</h3>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--/ bradcam_area  -->
-<div class="job_details_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <div class="apply_job_form white-bg">
-                    <h4>Post New Job</h4>
-                    <form method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {% bootstrap_form form %}
-                        {% buttons %}
+        <h2>Add a Job Posting</h2>
+        <p>Fill out the form below to add a new job posting.</p>
+        <form method="post">
+            {% csrf_token %}
 
-                        <button class="boxed-btn3 w-100" type="submit">Post Now</button>
-                        {% endbuttons %}
-                    </form>
-                </div>
+            <!-- Title -->
+            <div class="form-group">
+                <label for="id_title" class="form-label-bold">Title:</label>
+                {{ form.title }}
             </div>
-        </div>
-    </div>
-</div>
 
-{% endblock body %}
+            <!-- Company -->
+            <div class="form-group">
+                <label for="id_company" class="form-label-bold">Company:</label>
+                {{ form.company }}
+            </div>
+
+            <!-- Job Type -->
+            <div class="form-group">
+                <label for="id_job_type" class="form-label-bold">Job Type:</label>
+                {{ form.job_type }}
+            </div>
+
+            <!-- Location -->
+            <div class="form-group">
+                <label for="id_location" class="form-label-bold">Location:</label>
+                {{ form.location }}
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label for="id_description" class="form-label-bold">Description:</label>
+                {{ form.description }}
+            </div>
+
+            <!-- Requirements -->
+            <div class="form-group">
+                <label for="id_requirements" class="form-label-bold">Requirements:</label>
+                {{ form.requirements }}
+            </div>
+
+            <!-- Salary -->
+            <div class="form-group">
+                <label for="id_salary" class="form-label-bold">Salary:</label>
+                {{ form.salary }}
+            </div>
+
+            <!-- Currency -->
+            <div class="form-group">
+                <label for="id_currency" class="form-label-bold">Currency:</label>
+                {{ form.currency }}
+            </div>
+
+            <button type="submit" class="btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

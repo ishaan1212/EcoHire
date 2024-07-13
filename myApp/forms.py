@@ -4,11 +4,20 @@ from django.contrib.auth.models import User
 
 from .models import Job, Company, Application, Profile
 
-
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
-        fields = ['title', 'company', 'job_type', 'location', 'description', 'requirements', 'responsibilities', 'salary']
+        fields = ['title', 'company', 'job_type', 'location', 'description', 'requirements', 'responsibilities', 'salary','currency']
+
+        CURRENCY_CHOICES = [
+            ('USD', 'USD'),
+            ('EUR', 'EUR'),
+            ('GBP', 'GBP'),
+            ('CAD', 'CAD'),
+            ('INR', 'INR')
+        ]
+
+        currency = forms.ChoiceField(choices=CURRENCY_CHOICES, label='Currency')
 
 class CompanyForm(forms.ModelForm):
     class Meta:

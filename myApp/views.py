@@ -1,16 +1,14 @@
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from .forms import JobForm,CompanyForm
 
 from myApp.forms import ProfileForm, UserRegistrationForm
 
 
 # Create your views here.
-
-
 def home(request):
     return render(request, 'myApp/home.html')
-
 
 def jobs(request):
     # Replace with actual logic for displaying jobs
@@ -19,13 +17,31 @@ def jobs(request):
     }
     return render(request, 'myApp/jobs.html', context)
 
+def addJob(request):
+    if request.method == 'POST':
+        form = JobForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('job_list')  # Assuming you have a view to list jobs
+    else:
+        form = JobForm()
+    return render(request, 'job/add_job.html', {'form': form})
+
+def addCompany(request):
+    if request.method == 'POST':
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('job_list')  # Assuming you have a view to list jobs
+    else:
+        form = CompanyForm()
+    return render(request, 'myApp/add_Company.html', {'form': form})
 
 def about_us(request):
     context = {
         'title': 'About Us Page',
     }
     return render(request, 'myApp/about_us.html', context)
-
 
 def register(request):
     if request.method == 'POST':

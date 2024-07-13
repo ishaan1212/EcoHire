@@ -23,7 +23,14 @@ class Job(models.Model):
         ('Internship', 'Internship'),
         ('Freelance', 'Freelance'),
     ]
-
+    CURRENCY_CHOICES = [
+        ('USD', 'USD'),
+        ('EUR', 'EUR'),
+        ('GBP', 'GBP'),
+        ('CAD', 'CAD'),
+        ('INR', 'INR')
+        # Add more currencies as needed
+    ]
     title = models.CharField(max_length=100)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     job_type = models.CharField(max_length=20, choices=JOB_TYPE_CHOICES, default='Full Time')
@@ -32,6 +39,7 @@ class Job(models.Model):
     requirements = models.TextField()
     responsibilities = models.TextField()
     salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='USD')
     published_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
