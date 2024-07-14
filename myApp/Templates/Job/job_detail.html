@@ -1,15 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ job.title }}</title>
-</head>
-<body>
-    <h1>{{ job.title }}</h1>
-    <p>Company: {{ job.company }}</p>
-    <p>Location: {{ job.location }}</p>
-    <p>{{ job.description }}</p>
-    <p>Vacancies: {{ job.vacancy }}</p>
-    <p>Salary: {{ job.salary }}</p>
-    <p>Experience Required: {{ job.experience }} years</p>
-</body>
-</html>
+{% extends 'myApp/base.html' %}
+{% block title %}Job Detail - {{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{{ job.title }}</h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Job Description</h3>
+            <p class="card-text">{{ job.description }}</p>
+            <p class="card-text">{{ job.job_type }}</p>
+            <p class="card-text"><small class="text-muted">Posted on: {{ job.published_at }}</small></p>
+        </div>
+    </div>
+
+    <h2 class="mb-3">Your Applications</h2>
+
+    {% if applications %}
+        <ul>
+            {% for application in applications %}
+                <li>
+                    <strong>Company:</strong> {{ application.company.name }}<br>
+                    <strong>Resume:</strong> <a href="{{ application.resume.url }}">{{ application.resume.name }}</a><br>
+                    {% if application.cover_letter %}
+                        <strong>Cover Letter:</strong> <a href="{{ application.cover_letter.url }}">{{ application.cover_letter.name }}</a><br>
+                    {% endif %}
+                    <strong>Status:</strong> {{ application.get_status_display }}<br>
+                    <strong>Applied On:</strong> {{ application.applied_on }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No applications found for this job.</p>
+    {% endif %}
+</div>
+{% endblock %}

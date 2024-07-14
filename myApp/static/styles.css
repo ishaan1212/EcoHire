@@ -374,3 +374,119 @@ h1 {
 .add-company-form button[type="submit"]:hover {
     background-color: #45a049;
 }
+
+/* CSS for Add Job Form */
+
+.job-section {
+    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.job-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.job-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.job-container p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.job-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.job-form .form-group {
+    margin-bottom: 20px;
+}
+
+.job-form .form-label-bold {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+.job-form input,
+.job-form select,
+.job-form textarea {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.job-form input:focus,
+.job-form select:focus,
+.job-form textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.job-btn-primary {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.job-btn-primary:hover {
+    background-color: #45a049;
+}
+
+.job-search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-input,
+.search-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 22px);
+    background-color: #f9f9f9;
+}
+
+.search-input:focus,
+.search-select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.search-btn {
+    padding: 15px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #45a049;
+}

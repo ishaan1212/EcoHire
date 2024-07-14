@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from . import views
-from .views import post
 
 app_name = 'myApp'
 urlpatterns = [
@@ -14,8 +13,10 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('register/', views.register, name='register'),
     path('logout/', views.logout_view, name='logout'),
-    path('post/', views.post, name='post'),
-    path('job-list/', views.jobs, name='job_list')
+    path('job-list/', views.jobs, name='job_list'),
+    path('apply/<int:job_id>/', views.apply_job, name='apply_job'),
+    path('job-detail/<int:job_id>/', views.job_detail, name='job_detail'),
+
     # Add more paths for other pages as needed
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

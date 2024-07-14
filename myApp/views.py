@@ -1,15 +1,37 @@
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
-from .forms import JobForm,CompanyForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm
 
-from myApp.forms import ProfileForm, UserRegistrationForm, JobPostForm
-from myApp.models import Job
+from myApp.forms import ProfileForm, UserRegistrationForm
+from myApp.models import Job, Application
 
 
 # Create your views here.
 def home(request):
-    return render(request, 'myApp/home.html')
+    form = JobSearchForm(request.GET)
+    jobs = Job.objects.all()  # Default queryset
+
+    if form.is_valid():
+        keywords = form.cleaned_data.get('keywords')
+        location = form.cleaned_data.get('location')
+        job_type = form.cleaned_data.get('job_type')
+
+        # Filter jobs based on form inputs
+        jobs = Job.objects.all()  # Initialize queryset
+        if keywords:
+            jobs = jobs.filter(title__icontains=keywords)
+        if location:
+            jobs = jobs.filter(location__icontains=location)
+        if job_type:
+            jobs = jobs.filter(job_type=job_type)
+
+    context = {
+        'form': form,
+        'jobs': jobs,
+    }
+    return render(request, 'myApp/home.html', context)
 
 def jobs(request):
     jobs_lists = Job.objects.all()
@@ -24,7 +46,7 @@ def addJob(request):
         form = JobForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('job_list')  # Assuming you have a view to list jobs
+            return redirect('myApp:jobs')  # Assuming you have a view to list jobs
     else:
         form = JobForm()
     return render(request, 'job/add_job.html', {'form': form})
@@ -76,19 +98,30 @@ def logout_view(request):
     logout(request)
     return redirect('myApp:home')  # Redirect to home page after logout
 
+@login_required
+def apply_job(request, job_id):
+    job = get_object_or_404(Job, pk=job_id)
+    company = job.company
 
-
-#@login_required
-def post(request):
     if request.method == 'POST':
-        form = JobPostForm(request.POST)
+        form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
-            job = form.save(commit=False)
-            job.save()
-            return redirect('myApp:jobs')
+            application = form.save(commit=False)
+            application.user = request.user
+            application.job = job
+            application.company = company
+            application.status = 'P'  # Setting status to 'Pending'
+            application.save()
+            return redirect('myApp:job_detail', job_id=job.id)  # Redirect to job detail page or wherever needed
     else:
-        form = JobPostForm()
-    return render(request, 'myApp/post.html', {'form': form})
+        form = ApplicationForm()
+
+    return render(request, 'myApp/apply_job.html', {'form': form, 'job': job, 'company': company})
+
+def job_detail(request, job_id):
+    job = get_object_or_404(Job, pk=job_id)
+    applications = Application.objects.filter(job=job, user=request.user)
+    return render(request, 'Job/job_detail.html', {'job': job, 'applications': applications})
 
 
 

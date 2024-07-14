@@ -53,7 +53,6 @@ class Application(models.Model):
         ('A', 'Accepted'),
         ('R', 'Rejected'),
     ]
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)

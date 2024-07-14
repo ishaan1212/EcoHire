@@ -52,3 +52,15 @@ class UserRegistrationForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
+class JobSearchForm(forms.Form):
+    keywords = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'placeholder': 'Keywords',
+        'class': 'search-input'
+    }))
+    location = forms.CharField(required=False, widget=forms.TextInput(attrs={
+        'placeholder': 'Location',
+        'class': 'search-input'
+    }))
+    job_type = forms.ChoiceField(required=False, choices=[('', 'Choose a category...')] + list(Job.JOB_TYPE_CHOICES), widget=forms.Select(attrs={
+        'class': 'search-select'
+    }))
