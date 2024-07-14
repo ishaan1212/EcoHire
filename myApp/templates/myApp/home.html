@@ -1,0 +1,38 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>The Easiest Way to Get Your New Job</h2>
+        <p>Find jobs, create trackable resumes and enrich your applications.</p>
+        <form method="get" class="job-search-form">
+            {{ form.as_p }}
+            <button type="submit" class="search-btn">Search Jobs</button>
+        </form>
+    </div>
+</section>
+
+<section class="job-results">
+    <div class="container">
+        <h3>Search Results</h3>
+        {% if jobs %}
+            <ul>
+                {% for job in jobs %}
+                    <li>
+                        <h4>{{ job.title }}</h4>
+                        <p><strong>Company:</strong> {{ job.company }}</p>
+                        <p><strong>Location:</strong> {{ job.location }}</p>
+                        <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
+                        <p>{{ job.description }}</p>
+                        <!-- Add more details as needed -->
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No jobs found matching your search criteria.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+{% block title %}Add Job - EcoHire{% endblock %}
+
+{% block content %}
+<section class="job-section">
+    <div class="job-container">
+        <h2>Add a Job Posting</h2>
+        <p>Fill out the form below to add a new job posting.</p>
+        <form method="post" class="job-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="job-btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

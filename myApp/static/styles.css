@@ -1,0 +1,492 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header Styles */
+header {
+    background-color: #4caf50; /* Green background for header */
+    color: #fff; /* White text */
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+nav {
+    float: right;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Hero Section Styles */
+.hero {
+    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.hero h2 {
+    font-size: 48px;
+    margin: 0 0 10px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin: 0 0 30px;
+}
+
+.hero form {
+    max-width: 800px; /* Increased max-width for landscape layout */
+    margin: 0 auto;
+    display: flex; /* Use flexbox to arrange items horizontally */
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between; /* Spread items evenly */
+}
+
+.hero form .form-group {
+    width: calc(50% - 10px); /* Two fields per row with a small gap */
+    margin-bottom: 20px;
+}
+
+.hero form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.hero form input,
+.hero form select,
+.hero form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.hero form input:focus,
+.hero form select:focus,
+.hero form textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.hero button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.hero button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Footer Styles */
+footer {
+    background-color: #ddd; /* Light gray background */
+    color: #333; /* Dark gray text */
+    padding: 20px 0;
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    margin: 10px;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #333;
+    text-decoration: none;
+}
+
+.footer-column address {
+    font-style: normal;
+    line-height: 1.5;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    nav {
+        float: none;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-column {
+        text-align: center;
+    }
+}
+
+.footer-logo {
+    max-width: 200px; /* Adjust the maximum width of the logo */
+    height: auto; /* Ensures the logo scales proportionally */
+}
+
+/* Additional Form Styles */
+.signup-dialog {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.signup-dialog h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+h2 {
+    color: #555; /* Dark gray heading */
+    margin-bottom: 20px;
+}
+
+/* Profile Styles */
+/* styles.css */
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+/* Additional Styling for Specific Pages */
+/* Add any additional page-specific styles below */
+/* Additional Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-row label {
+    width: 30%;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.form-row input,
+.form-row select {
+    width: 65%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-row label {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+    .form-row input,
+    .form-row select {
+        width: 100%;
+    }
+}
+
+/* Form Styles */
+.add-company-form {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.add-company-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.add-company-form input,
+.add-company-form select,
+.add-company-form textarea {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.add-company-form input:focus,
+.add-company-form select:focus,
+.add-company-form textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.add-company-form button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.add-company-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* CSS for Add Job Form */
+
+.job-section {
+    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.job-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.job-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.job-container p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.job-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.job-form .form-group {
+    margin-bottom: 20px;
+}
+
+.job-form .form-label-bold {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+.job-form input,
+.job-form select,
+.job-form textarea {
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.job-form input:focus,
+.job-form select:focus,
+.job-form textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.job-btn-primary {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.job-btn-primary:hover {
+    background-color: #45a049;
+}
+
+.job-search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-input,
+.search-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: calc(100% - 22px);
+    background-color: #f9f9f9;
+}
+
+.search-input:focus,
+.search-select:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.search-btn {
+    padding: 15px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-btn:hover {
+    background-color: #45a049;
+}

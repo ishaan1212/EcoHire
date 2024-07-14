@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <title>{% block title %}EcoHire{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>EcoHire <span>Job Board</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
+                    <li><a href="{% url 'myApp:Addjobs' %}">Post A Job</a></li>
+                    <li><a href="{% url 'myApp:AddCompany' %}">Add Company</a></li>
+                    <li><a href="#">About Us</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'myApp:profile' %}">Profile</a></li>
+                        <li><a href="{% url 'myApp:logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'myApp:register' %}">Sign Up</a></li>
+                        <li><a href="#">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <img  src="{% static 'images/logo.png' %}" alt="Jobify Classic Logo" class="footer-logo">
+                    <p>Use Jobify to run a hiring site and earn money in the process!</p>
+                </div>
+                <div class="footer-column">
+                    <ul>
+                        <li><a href="#">Companies</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Find a Job</a></li>
+                        <li><a href="#">Post a Job</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Submit Company</a></li>
+                        <li><a href="#">Terms and Conditions</a></li>
+                        <li><a href="#">Testimonials</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <address>
+                        300 Ouelletter<br>
+                        EcoHire Inc Canada. Windsor, Ontario M4K 6F4
+                    </address>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 — ALL RIGHTS RESERVED</p>
+                <div class="footer-socials">
+                    <a href="#"><img src="{% static 'images/twitter.png' %}" alt="Twitter"></a>
+                    <a href="#"><img src="{% static 'images/facebook.png' %}" alt="Facebook"></a>
+                    <a href="#"><img src="{% static 'images/instagram.png' %}" alt="Instagram"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!-- apply_job.html -->
+
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Apply to Job - {{ job.title }}{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>Apply to {{ job.title }}</h2>
+        <p>Fill out the form below to apply for this job at {{ company.name }}.</p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn-primary">Submit Application</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

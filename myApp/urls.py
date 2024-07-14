@@ -1,17 +1,23 @@
-# myApp/urls.py
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.urls import path
-from django.contrib.auth import views as auth_views
 from . import views
 
+app_name = 'myApp'
 urlpatterns = [
-    path('login/', auth_views.LoginView.as_view(template_name='myApp/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('job/<int:pk>/', views.JobDetailView.as_view(), name='job-detail'),
-    path('search/', views.job_search, name='job-search'),
-    path('contact/', views.contact_us_view, name='contact'),
-    path('about/', views.about_us_view, name='about'),
-    path('team/', views.team_details_view, name='team'),
-    path('jobs/', views.JobListView.as_view(), name='job_list'),
-    path('job/<int:pk>/', views.JobDetailView.as_view(), name='job-detail')
-]
+    path('', views.home, name='home'),
+    path('jobs/', views.jobs, name='jobs'),
+    path('addjobs/', views.addJob, name='Addjobs'),
+    path('addCompany/', views.addCompany, name='AddCompany'),
+    path('about_us/', views.about_us, name='about_us'),
+    path('profile/', views.profile, name='profile'),
+    path('register/', views.register, name='register'),
+    path('logout/', views.logout_view, name='logout'),
+    path('job-list/', views.jobs, name='job_list'),
+    path('apply/<int:job_id>/', views.apply_job, name='apply_job'),
+    path('job-detail/<int:job_id>/', views.job_detail, name='job_detail'),
+
+    # Add more paths for other pages as needed
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

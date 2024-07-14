@@ -1,0 +1,40 @@
+<!-- add_company.html -->
+
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Add Company - EcoHire{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>Add a Company</h2>
+        <p>Fill out the form below to add a new company.</p>
+        <form method="post" class="add-company-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_name" class="form-label-bold">Name:</label>
+                {{ form.name }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_location" class="form-label-bold">Location:</label>
+                {{ form.location }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_website" class="form-label-bold">Website:</label>
+                {{ form.website }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description" class="form-label-bold">Description:</label>
+                {{ form.description }}
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

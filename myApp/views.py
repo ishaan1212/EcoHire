@@ -1,63 +1,127 @@
-# myApp/views.py
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import AuthenticationForm
-from .forms import LoginForm, JobSearchForm
-from django.views.generic import DetailView
-from django.views.generic import ListView
-from .models import Job
+from myApp.forms import ProfileForm, UserRegistrationForm
+from myApp.models import Job, Application
 
-def login_view(request):
+
+# Create your views here.
+def home(request):
+    form = JobSearchForm(request.GET)
+    jobs = Job.objects.all()  # Default queryset
+
+    if form.is_valid():
+        keywords = form.cleaned_data.get('keywords')
+        location = form.cleaned_data.get('location')
+        job_type = form.cleaned_data.get('job_type')
+
+        # Filter jobs based on form inputs
+        jobs = Job.objects.all()  # Initialize queryset
+        if keywords:
+            jobs = jobs.filter(title__icontains=keywords)
+        if location:
+            jobs = jobs.filter(location__icontains=location)
+        if job_type:
+            jobs = jobs.filter(job_type=job_type)
+
+    context = {
+        'form': form,
+        'jobs': jobs,
+    }
+    return render(request, 'myApp/home.html', context)
+
+def jobs(request):
+    jobs_lists = Job.objects.all()
+    context = {
+        'title': 'Jobs Page',
+        'jobs_lists': jobs_lists,
+    }
+    return render(request, 'myApp/jobs.html', context)
+
+def addJob(request):
     if request.method == 'POST':
-        form = LoginForm(request, data=request.POST)
+        form = JobForm(request.POST)
         if form.is_valid():
-            ssn = form.cleaned_data.get('ssn')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=ssn, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')  # Redirect to a home page or dashboard
+            form.save()
+            return redirect('myApp:jobs')  # Assuming you have a view to list jobs
     else:
-        form = LoginForm()
-    return render(request, 'myApp/login.html', {'form': form})
+        form = JobForm()
+    return render(request, 'job/add_job.html', {'form': form})
 
+def addCompany(request):
+    if request.method == 'POST':
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('job_list')  # Assuming you have a view to list jobs
+    else:
+        form = CompanyForm()
+    return render(request, 'myApp/add_Company.html', {'form': form})
+
+def about_us(request):
+    context = {
+        'title': 'About Us Page',
+    }
+    return render(request, 'myApp/about_us.html', context)
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirect to login page upon successful registration
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'myApp/register.html', {'form': form})
+
+
+# @login_required
+def profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('myApp:profile')  # Redirect to profile page upon successful update
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+
+    context = {
+        'profile_form': profile_form
+    }
+    return render(request, 'myApp/user_profile.html', context)
+
+# @login_required
 def logout_view(request):
     logout(request)
-    return redirect('login')
-def contact_us_view(request):
-    # Logic for handling the contact us page
-    return render(request, 'myApp/contact_us.html')
+    return redirect('myApp:home')  # Redirect to home page after logout
 
-def about_us_view(request):
-    # Logic for handling the about us page
-    return render(request, 'myApp/about_us.html')
+@login_required
+def apply_job(request, job_id):
+    job = get_object_or_404(Job, pk=job_id)
+    company = job.company
 
-def team_details_view(request):
-    # Logic for handling the team details page
-    return render(request, 'myApp/team_details.html')
-
-def job_search(request):
-    if request.method == 'GET':
-        form = JobSearchForm(request.GET)
+    if request.method == 'POST':
+        form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
-            query = form.cleaned_data.get('query')
-            results = Job.objects.filter(title__icontains=query)
-            # Add more fields to search if needed: e.g., description__icontains=query
-        else:
-            results = Job.objects.all()  # Display all jobs initially
+            application = form.save(commit=False)
+            application.user = request.user
+            application.job = job
+            application.company = company
+            application.status = 'P'  # Setting status to 'Pending'
+            application.save()
+            return redirect('myApp:job_detail', job_id=job.id)  # Redirect to job detail page or wherever needed
     else:
-        form = JobSearchForm()
-        results = Job.objects.all()  # Display all jobs initially
+        form = ApplicationForm()
 
-    return render(request, 'myApp/job_search_results.html', {'form': form, 'results': results})
-class JobListView(ListView):
-    model = Job
-    template_name = 'myApp/job_list.html'  # Template for job list view
-    context_object_name = 'jobs'  # Name of the context variable in the template
-    paginate_by = 10
+    return render(request, 'myApp/apply_job.html', {'form': form, 'job': job, 'company': company})
 
-class JobDetailView(DetailView):
-    model = Job
-    template_name = 'myApp/job_detail.html'  # Replace with your template name
-    context_object_name = 'job'
+def job_detail(request, job_id):
+    job = get_object_or_404(Job, pk=job_id)
+    applications = Application.objects.filter(job=job, user=request.user)
+    return render(request, 'Job/job_detail.html', {'job': job, 'applications': applications})
+
+
+
