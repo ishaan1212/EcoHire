@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from .forms import JobForm,CompanyForm
 
-from myApp.forms import ProfileForm, UserRegistrationForm
+from myApp.forms import ProfileForm, UserRegistrationForm, JobPostForm
+from myApp.models import Job
 
 
 # Create your views here.
@@ -11,9 +12,10 @@ def home(request):
     return render(request, 'myApp/home.html')
 
 def jobs(request):
-    # Replace with actual logic for displaying jobs
+    jobs_lists = Job.objects.all()
     context = {
         'title': 'Jobs Page',
+        'jobs_lists': jobs_lists,
     }
     return render(request, 'myApp/jobs.html', context)
 
@@ -73,4 +75,20 @@ def profile(request):
 def logout_view(request):
     logout(request)
     return redirect('myApp:home')  # Redirect to home page after logout
+
+
+
+#@login_required
+def post(request):
+    if request.method == 'POST':
+        form = JobPostForm(request.POST)
+        if form.is_valid():
+            job = form.save(commit=False)
+            job.save()
+            return redirect('myApp:jobs')
+    else:
+        form = JobPostForm()
+    return render(request, 'myApp/post.html', {'form': form})
+
+
 
