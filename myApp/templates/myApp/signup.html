@@ -1,0 +1,63 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Join Us Now{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>Fill the below form to get employed</h2>
+        <form method="post" enctype="multipart/form-data" id="signupForm">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-primary">SignUp</button>
+        </form>
+        <div id="form-messages" class="alert" style="display:none;"></div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageDiv = document.getElementById('form-messages');
+            messageDiv.style.display = 'block';
+            if (data.success) {
+                messageDiv.className = 'alert alert-success';
+                messageDiv.innerText = data.message;
+                setTimeout(() => {
+                    window.location.href = data.redirect_url;
+                }, 2000);
+            } else {
+                messageDiv.className = 'alert alert-danger';
+                messageDiv.innerText = 'There were errors with your submission:';
+                const errors = data.errors;
+                for (let field in errors) {
+                    errors[field].forEach(error => {
+                        messageDiv.innerHTML += `<br>${field}: ${error.message}`;
+                    });
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+{% endblock %}

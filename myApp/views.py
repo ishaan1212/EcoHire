@@ -1,7 +1,14 @@
 from django.contrib.auth import logout
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.urls import reverse
 
 from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm
+from myApp.models import Job, Application, Profile
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.views import LoginView
+from django.contrib import messages
+from .forms import SignUpForm,CustomLoginForm
 
 from myApp.forms import ProfileForm, UserRegistrationForm
 from myApp.models import Job
@@ -13,7 +20,6 @@ from .forms import ApplicationReviewForm
 
 # Create your views here.
 def home(request):
-
     form = JobSearchForm(request.GET)
     jobs = Job.objects.all()  # Default queryset
 
@@ -71,39 +77,60 @@ def about_us(request):
     }
     return render(request, 'myApp/about_us.html', context)
 
-def register(request):
+def signup(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('login')  # Redirect to login page upon successful registration
+            user = form.save()
+            user.refresh_from_db()  # Load the profile instance created by the signal
+            user.profile.phone_number = form.cleaned_data.get('phone_number')
+            user.profile.country = form.cleaned_data.get('country')
+            user.profile.gender = form.cleaned_data.get('gender')
+            user.save()
+            login(request, user)
+            if form.cleaned_data.get('is_recruiter'):
+                messages.success(request, 'Signup successful! You have been logged in as a recruiter.')
+                redirect_url = reverse('myApp:Addjobs')
+            else:
+                messages.success(request, 'Signup successful! You have been logged in as a job seeker.')
+                redirect_url = reverse('myApp:jobs')
+            return JsonResponse({'success': True, 'message': 'Signup successful! You have been logged in.', 'redirect_url': redirect_url})
+        else:
+            errors = {field: error.get_json_data() for field, error in form.errors.items()}
+            return JsonResponse({'success': False, 'errors': errors})
     else:
-        form = UserRegistrationForm()
-    return render(request, 'myApp/register.html', {'form': form})
+        form = SignUpForm()
+    return render(request, 'myApp/signup.html', {'form': form})
 
-
-# @login_required
-def profile(request):
+def login_view(request):
     if request.method == 'POST':
-        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if profile_form.is_valid():
-            profile_form.save()
-            return redirect('myApp:profile')  # Redirect to profile page upon successful update
+        form = CustomLoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                if user.profile.is_recruiter:
+                    message = 'Login successful! You have been logged in as a recruiter.'
+                    redirect_url = reverse('myApp:Addjobs')  # Redirect to add job page for recruiters
+                else:
+                    message = 'Login successful! You have been logged in as a job seeker.'
+                    redirect_url = reverse('myApp:jobs')  # Redirect to job listing page for job seekers
+                return JsonResponse({'success': True, 'message': message, 'redirect_url': redirect_url})
+            else:
+                return JsonResponse({'success': False, 'message': 'Invalid credentials.'})
+        else:
+            return JsonResponse({'success': False, 'message': 'Form is invalid.'})
     else:
-        profile_form = ProfileForm(instance=request.user.profile)
-
-    context = {
-        'profile_form': profile_form
-    }
-    return render(request, 'myApp/user_profile.html', context)
-
+        form = CustomLoginForm()
+    return render(request, 'myApp/login.html', {'form': form})
 # @login_required
 def logout_view(request):
     logout(request)
     return redirect('myApp:home')  # Redirect to home page after logout
 
 
-@login_required
 @login_required
 def apply_job(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -148,7 +175,7 @@ def apply_job(request, job_id):
 def job_detail(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     applications = Application.objects.filter(job=job, user=request.user)
-    return render(request, 'Job/job_detail.html', {'job': job, 'applications': applications})
+    return render(request, 'job/job_detail.html', {'job': job, 'applications': applications})
 
 
 @login_required

@@ -17,17 +17,19 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
-                    <li><a href="{% url 'myApp:Addjobs' %}">Post A Job</a></li>
-                    <li><a href="{% url 'myApp:AddCompany' %}">Add Company</a></li>
-                    <li><a href="{% url 'myApp:manage_applications' %}">Manage Applications</a></li>
                     <li><a href="#">About Us</a></li>
                     {% if user.is_authenticated %}
-                        <li><a href="{% url 'myApp:profile' %}">Profile</a></li>
+                        {% if user.profile.is_recruiter %}
+                            <li><a href="{% url 'myApp:Addjobs' %}">Post A Job</a></li>
+                            <li><a href="{% url 'myApp:AddCompany' %}">Add Company</a></li>
+                            <li><a href="{% url 'myApp:manage_applications' %}">Manage Applications</a></li>
+                            <li><a href="{% url 'myApp:logout' %}">Logout</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
                         <li><a href="{% url 'myApp:logout' %}">Logout</a></li>
                     {% else %}
-                        <li><a href="{% url 'myApp:register' %}">Sign Up</a></li>
-                        <li><a href="#">Login</a></li>
+                        <li><a href="{% url 'myApp:signup' %}">Sign Up</a></li>
+                        <li><a href="{% url 'myApp:login' %}">Login</a></li>
                     {% endif %}
                 </ul>
             </nav>
