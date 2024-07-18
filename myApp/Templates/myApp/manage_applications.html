@@ -1,0 +1,44 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Manage Applications{% endblock %}
+
+{% block content %}
+<section class="manage-applications-section">
+    <div class="container">
+        <h2>Manage Applications</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Applicant</th>
+                    <th>Status</th>
+                    <th>Resume</th>
+                    <th>Cover Letter</th>
+                    <th>Motivation Letter</th>
+                    <th>Experience</th>
+                    <th>Skills</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                <tr>
+                    <td>{{ application.job.title }}</td>
+                    <td>{{ application.user.username }}</td>
+                    <td>{{ application.get_status_display }}</td>
+                    <td><a href="{{ application.resume.url }}">Download</a></td>
+                    <td><a href="{{ application.cover_letter.url }}">Download</a></td>
+                    <td>{{ application.motivation_letter }}</td>
+                    <td>{{ application.experience }}</td>
+                    <td>{{ application.skills }}</td>
+                    <td>
+                        <a href="{% url 'myApp:change_application_status' application.id %}" class="btn btn-primary">Review</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

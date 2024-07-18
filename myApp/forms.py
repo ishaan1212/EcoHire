@@ -2,13 +2,14 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Job, Company, Application, Profile
+from .models import Job, Company, Application, Profile, ApplicationReview
 
 
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
-        fields = ['title', 'company', 'job_type', 'location', 'description', 'requirements', 'responsibilities', 'salary','currency']
+        fields = ['title', 'company', 'job_type', 'location', 'description', 'requirements', 'responsibilities',
+                  'salary', 'currency']
 
         CURRENCY_CHOICES = [
             ('USD', 'USD'),
@@ -20,19 +21,40 @@ class JobForm(forms.ModelForm):
 
         currency = forms.ChoiceField(choices=CURRENCY_CHOICES, label='Currency')
 
+
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['name', 'location', 'website', 'description']
 
+
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['user', 'job', 'company', 'resume', 'cover_letter', 'status']
+        fields = ['job', 'company', 'user', 'resume', 'cover_letter', 'motivation_letter', 'experience', 'skills', 'status']
+        widgets = {
+            'status': forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}),
+            'motivation_letter': forms.Textarea(attrs={'rows': 4}),
+            'experience': forms.Textarea(attrs={'rows': 4}),
+            'skills': forms.Textarea(attrs={'rows': 4}),
+        }
 
     def __init__(self, *args, **kwargs):
-        super(ApplicationForm, self).__init__(*args, **kwargs)
-
+        user = kwargs.pop('user', None)
+        job = kwargs.pop('job', None)
+        company = kwargs.pop('company', None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['user'].initial = user
+            self.fields['user'].disabled = True
+        if job:
+            self.fields['job'].initial = job.pk
+            self.fields['job'].disabled = True
+        if company:
+            self.fields['company'].initial = company.pk
+            self.fields['company'].disabled = True
+        self.fields['status'].initial = 'P'  # Ensure status is set to 'Pending'
+        self.fields['status'].disabled = True
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -61,6 +83,12 @@ class JobSearchForm(forms.Form):
         'placeholder': 'Location',
         'class': 'search-input'
     }))
-    job_type = forms.ChoiceField(required=False, choices=[('', 'Choose a category...')] + list(Job.JOB_TYPE_CHOICES), widget=forms.Select(attrs={
-        'class': 'search-select'
-    }))
+    job_type = forms.ChoiceField(required=False, choices=[('', 'Choose a category...')] + list(Job.JOB_TYPE_CHOICES),
+                                 widget=forms.Select(attrs={
+                                     'class': 'search-select'
+                                 }))
+
+class ApplicationReviewForm(forms.ModelForm):
+    class Meta:
+        model = ApplicationReview
+        fields = ['status', 'comments']

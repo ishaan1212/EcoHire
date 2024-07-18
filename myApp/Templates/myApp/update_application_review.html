@@ -1,0 +1,18 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Review Application{% endblock %}
+
+{% block content %}
+<section class="review-application-section">
+    <div class="container">
+        <h2>Review Application for {{ application.job.title }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+        <a href="{% url 'myApp:manage_applications' %}" class="btn btn-secondary">Back to Applications</a>
+    </div>
+</section>
+{% endblock %}
