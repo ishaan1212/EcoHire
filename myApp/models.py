@@ -13,6 +13,8 @@ class Company(models.Model):
     location = models.CharField(max_length=50)
     website = models.URLField()
     description = models.TextField()
+    users = models.ManyToManyField(User, related_name='companies')  # Assuming many-to-many relationship
+
 
     def __str__(self):
         return self.name
@@ -48,11 +50,13 @@ class Job(models.Model):
         return self.title
 
 class Application(models.Model):
+
     STATUS_CHOICES = [
         ('P', 'Pending'),
         ('A', 'Accepted'),
         ('R', 'Rejected'),
     ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
@@ -60,7 +64,9 @@ class Application(models.Model):
     cover_letter = models.FileField(upload_to='cover_letters/', blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
     applied_on = models.DateTimeField(auto_now_add=True)   #the auto_now_add field explains that when a new instance is created, the time is switched to current date time
-
+    motivation_letter = models.TextField(default='')  # New field for motivation letter
+    experience = models.TextField(default='')  # New field for experience related to environment
+    skills = models.TextField(default='')  # New field for skills related to environment
     def __str__(self):
         return f"{self.user.username} - {self.job.title}"
 
@@ -77,3 +83,21 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class ApplicationReview(models.Model):
+    STATUS_CHOICES = [
+        ('P', 'Pending'),
+        ('A', 'Accepted'),
+        ('R', 'Rejected'),
+    ]
+
+    application = models.OneToOneField(Application, on_delete=models.CASCADE, related_name='review')
+    reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='P')
+    comments = models.TextField(blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.application.user.username} - {self.application.job.title} - {self.get_status_display()}"
+
+

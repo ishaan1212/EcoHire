@@ -1,15 +1,19 @@
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
+
 from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm
 
 from myApp.forms import ProfileForm, UserRegistrationForm
-from myApp.models import Job, Application
+from myApp.models import Job
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
+from .models import Application, ApplicationReview
+from .forms import ApplicationReviewForm
 
 
 # Create your views here.
 def home(request):
+
     form = JobSearchForm(request.GET)
     jobs = Job.objects.all()  # Default queryset
 
@@ -98,25 +102,48 @@ def logout_view(request):
     logout(request)
     return redirect('myApp:home')  # Redirect to home page after logout
 
+
+@login_required
 @login_required
 def apply_job(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     company = job.company
+    already_applied = Application.objects.filter(job=job, user=request.user).exists()
+
+    if already_applied:
+        print("User has already applied for this job.")
+        return render(request, 'myApp/apply_job.html', {
+            'already_applied': True,
+            'job': job,
+            'company': company
+        })
 
     if request.method == 'POST':
-        form = ApplicationForm(request.POST, request.FILES)
+        print("Received POST request.")
+        form = ApplicationForm(request.POST, request.FILES, user=request.user, job=job, company=company)
         if form.is_valid():
+            print("Form is valid.")
             application = form.save(commit=False)
             application.user = request.user
             application.job = job
             application.company = company
             application.status = 'P'  # Setting status to 'Pending'
             application.save()
-            return redirect('myApp:job_detail', job_id=job.id)  # Redirect to job detail page or wherever needed
+            print("Application saved. Redirecting to job detail page.")
+            return redirect('myApp:job_detail', job_id=job.id)
+        else:
+            print("Form is not valid.")
+            print(form.errors)
     else:
-        form = ApplicationForm()
+        print("Received GET request.")
+        form = ApplicationForm(initial={'status': 'P'}, user=request.user, job=job, company=company)
 
-    return render(request, 'myApp/apply_job.html', {'form': form, 'job': job, 'company': company})
+    return render(request, 'myApp/apply_job.html', {
+        'form': form,
+        'job': job,
+        'company': company,
+        'already_applied': already_applied
+    })
 
 def job_detail(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
@@ -124,4 +151,30 @@ def job_detail(request, job_id):
     return render(request, 'Job/job_detail.html', {'job': job, 'applications': applications})
 
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def update_application_review(request, application_id):
+    application = get_object_or_404(Application, pk=application_id)
+    if request.method == 'POST':
+        form = ApplicationReviewForm(request.POST, instance=application)
+        if form.is_valid():
+            form.save()
+            return redirect('myApp:manage_applications')
+    else:
+        form = ApplicationReviewForm(instance=application)
+    return render(request, 'myApp/update_application_review.html', {'form': form, 'application': application})
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def manage_applications(request):
+    # Assuming a user can be associated with multiple companies
+    companies = request.user.companies.all()  # Get all companies the user is associated with
+
+    # For simplicity, let's assume we are only dealing with the first company
+    company = companies.first()
+
+    if not company:
+        return HttpResponse("No company associated with this user.", status=403)
+
+    applications = Application.objects.filter(company=company)
+    return render(request, 'myApp/manage_applications.html', {'applications': applications})

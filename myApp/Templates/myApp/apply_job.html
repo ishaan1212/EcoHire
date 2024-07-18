@@ -1,21 +1,25 @@
-<!-- apply_job.html -->
-
+<!-- Appljob.html -->
 {% extends 'myApp/base.html' %}
 {% load static %}
 
 {% block title %}Apply to Job - {{ job.title }}{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="container">
+<section class="job-section">
+    <div class="job-container">
         <h2>Apply to {{ job.title }}</h2>
         <p>Fill out the form below to apply for this job at {{ company.name }}.</p>
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ form.as_p }}
 
-            <button type="submit" class="btn-primary">Submit Application</button>
-        </form>
+        {% if already_applied %}
+            <p class="apply-message">You have already applied for this job.</p>
+        {% else %}
+            <form method="post" enctype="multipart/form-data" class="job-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="apply-btn">Submit Application</button>
+            </form>
+        {% endif %}
+        <a href="#" onclick="history.go(-1); return false;" class="apply-btn apply-btn-secondary">Go Back</a>
     </div>
 </section>
 {% endblock %}

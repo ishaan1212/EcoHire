@@ -20,6 +20,7 @@
                     <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
                     <li><a href="{% url 'myApp:Addjobs' %}">Post A Job</a></li>
                     <li><a href="{% url 'myApp:AddCompany' %}">Add Company</a></li>
+                    <li><a href="{% url 'myApp:manage_applications' %}">Manage Applications</a></li>
                     <li><a href="#">About Us</a></li>
                     {% if user.is_authenticated %}
                         <li><a href="{% url 'myApp:profile' %}">Profile</a></li>
@@ -32,6 +33,16 @@
             </nav>
         </div>
     </header>
+    <!-- Display messages -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
     <main>
         {% block content %}{% endblock %}
     </main>

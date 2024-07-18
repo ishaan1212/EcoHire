@@ -104,7 +104,7 @@ nav ul li a {
     border-color: #4CAF50;
 }
 
-.hero button[type="submit"] {
+.hero .search-btn {
     background-color: #4CAF50;
     color: white;
     padding: 15px;
@@ -114,7 +114,7 @@ nav ul li a {
     font-size: 16px;
 }
 
-.hero button[type="submit"]:hover {
+.hero .search-btn:hover {
     background-color: #45a049;
 }
 
@@ -489,4 +489,245 @@ h1 {
 
 .search-btn:hover {
     background-color: #45a049;
+}
+
+.btn-secondary {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #6c757d;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* CSS for Apply Job Page */
+.apply-hero {
+    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+}
+
+.apply-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.apply-container h2 {
+    font-size: 28px;
+    margin: 0 0 10px;
+    color: #333;
+}
+
+.apply-container p {
+    font-size: 18px;
+    margin: 0 0 30px;
+    color: #666;
+}
+
+.apply-form {
+    margin-top: 20px;
+}
+
+.apply-form-group {
+    margin-bottom: 15px;
+}
+
+.apply-form label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.apply-form .form-control {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.apply-form .form-control:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.apply-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.apply-btn-primary {
+    background-color: #007bff;
+}
+
+.apply-btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.apply-btn-secondary {
+    background-color: #6c757d;
+    margin-top: 10px;
+}
+
+.apply-btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.apply-text-warning {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.apply-invalid-feedback {
+    color: #dc3545;
+}
+
+.apply-form-text {
+    display: block;
+    margin-top: .25rem;
+    font-size: 80%;
+    color: #6c757d;
+}
+
+.job-results {
+    padding: 50px 0;
+    background-color: #f9f9f9;
+}
+
+.job-results .container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.job-results h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.job-list {
+    list-style: none;
+    padding: 0;
+}
+
+.job-item {
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.job-item h4 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.job-item p {
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.job-item .btn-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+.job-item .btn-primary:hover {
+    background-color: #0056b3;
+}
+/* Existing styles... */
+
+.form-row-home {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-group-home {
+    flex: 1;
+    margin-right: 10px; /* Adjust spacing between fields */
+}
+
+.job-search-form-home .search-btn-home {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;}
+
+
+.job-search-form-home .search-btn-home:hover {
+    background-color: #45a049;
+}
+
+.update-section {
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.update-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.update-container h2 {
+    margin-bottom: 20px;
+}
+
+.update-container p {
+    margin-bottom: 10px;
+}
+
+.update-container .btn {
+    margin-top: 20px;
+}
+
+.update-container hr {
+    margin: 30px 0;
 }

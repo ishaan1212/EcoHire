@@ -1,5 +1,4 @@
 {% extends 'myApp/base.html' %}
-{% load static %}
 {% block title %}Home{% endblock %}
 
 {% block content %}
@@ -7,9 +6,22 @@
     <div class="container">
         <h2>The Easiest Way to Get Your New Job</h2>
         <p>Find jobs, create trackable resumes and enrich your applications.</p>
-        <form method="get" class="job-search-form">
-            {{ form.as_p }}
-            <button type="submit" class="search-btn">Search Jobs</button>
+        <form method="get" class="job-search-form-home">
+            <div class="form-row-home">
+                <div class="form-group-home">
+                    {{ form.keywords.label_tag }}
+                    {{ form.keywords }}
+                </div>
+                <div class="form-group-home">
+                    {{ form.location.label_tag }}
+                    {{ form.location }}
+                </div>
+                <div class="form-group-home">
+                    {{ form.job_type.label_tag }}
+                    {{ form.job_type }}
+                </div>
+                <button type="submit" class="search-btn-home">Search Jobs</button>
+            </div>
         </form>
     </div>
 </section>
@@ -17,22 +29,19 @@
 <section class="job-results">
     <div class="container">
         <h3>Search Results</h3>
-        {% if jobs %}
-            <ul>
-                {% for job in jobs %}
-                    <li>
-                        <h4>{{ job.title }}</h4>
-                        <p><strong>Company:</strong> {{ job.company }}</p>
-                        <p><strong>Location:</strong> {{ job.location }}</p>
-                        <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
-                        <p>{{ job.description }}</p>
-                        <!-- Add more details as needed -->
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No jobs found matching your search criteria.</p>
-        {% endif %}
+        <ul class="job-list">
+            {% for job in jobs %}
+            <li class="job-item">
+                <h4>{{ job.title }}</h4>
+                <p><strong>Company:</strong> {{ job.company }}</p>
+                <p><strong>Location:</strong> {{ job.location }}</p>
+                <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
+                <p>{{ job.description }}</p>
+                <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary">Apply Now</a>            </li>
+            {% empty %}
+            <li>No jobs found matching your search criteria.</li>
+            {% endfor %}
+        </ul>
     </div>
 </section>
 {% endblock %}
