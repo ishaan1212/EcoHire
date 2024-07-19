@@ -26,6 +26,7 @@
     </div>
 </section>
 
+    {% if user.is_authenticated %}
 <section class="job-results">
     <div class="container">
         <h3>Search Results</h3>
@@ -44,4 +45,5 @@
         </ul>
     </div>
 </section>
+    {% endif %}
 {% endblock %}

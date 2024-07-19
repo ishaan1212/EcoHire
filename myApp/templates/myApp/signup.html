@@ -1,0 +1,63 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Join Us Now{% endblock %}
+
+{% block content %}
+<section class="hero-signup">
+    <div class="container-signup">
+        <h2>Fill the below form to get your ideal candidate</h2>
+        <form method="post" enctype="multipart/form-data" id="signupForm" class="form-signup">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-signup">Sign Up</button>
+        </form>
+        <div id="form-messages-signup" class="alert-signup" style="display:none;"></div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const form = event.target;
+        const formData = new FormData(form);
+        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Accept': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const messageDiv = document.getElementById('form-messages-signup');
+            messageDiv.style.display = 'block';
+            if (data.success) {
+                messageDiv.className = 'alert-signup alert-signup-success';
+                messageDiv.innerText = data.message;
+                setTimeout(() => {
+                    window.location.href = data.redirect_url;
+                }, 2000);
+            } else {
+                messageDiv.className = 'alert-signup alert-signup-danger';
+                messageDiv.innerText = 'There were errors with your submission:';
+                const errors = data.errors;
+                for (let field in errors) {
+                    errors[field].forEach(error => {
+                        messageDiv.innerHTML += `<br>${field}: ${error.message}`;
+                    });
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+{% endblock %}

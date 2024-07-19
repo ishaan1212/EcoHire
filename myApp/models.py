@@ -11,7 +11,7 @@ from django import forms
 class Company(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=50)
-    website = models.URLField()
+    website = models.CharField(max_length=50)
     description = models.TextField()
     users = models.ManyToManyField(User, related_name='companies')  # Assuming many-to-many relationship
 
@@ -73,16 +73,12 @@ class Application(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    city = models.CharField(max_length=100, blank=True)
-    country = models.CharField(max_length=100, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
-
+    country = models.CharField(max_length=3, blank=True)
+    gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True)
+    is_recruiter = models.BooleanField(default=False)
     def __str__(self):
-        return self.user.username
+        return f'{self.user.username} Profile'
 
 class ApplicationReview(models.Model):
     STATUS_CHOICES = [
