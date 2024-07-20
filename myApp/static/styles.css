@@ -1,6 +1,8 @@
 /* General Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Varela Round", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    line-height: 1.5;
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
@@ -15,10 +17,16 @@ body {
 
 /* Header Styles */
 header {
-    background-color: #4caf50; /* Green background for header */
-    color: #fff; /* White text */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Ensure it's above other content */
+    background-color: #ebe9eb;
+    color: #333; /* White text */
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
+
 }
 
 .logo h1 {
@@ -44,17 +52,110 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #fff;
-    font-size: 14px;
+    color: darkslategray;
+    font-size: 15px;
+    font-weight: bold;
+}
+/* Hover style for navigation links */
+nav ul li a:hover {
+    transform: scale(10); /* Slightly increase the size on hover */
+    text-decoration: none; /* Ensure no underline */
 }
 
-/* Hero Section Styles */
+/* Hero & other Section Styles */
 .hero {
-    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
+    background: url('images/back-img.jpg') no-repeat center center;
     background-size: cover;
     padding: 100px 0;
     text-align: center;
     color: #fff;
+}
+
+.get-started{
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/back-img2.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 100px 0;
+    color: #fff;
+    height: 100vh;
+}
+
+.discover-company{
+    background:  linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/back-img3.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 100px 0;
+    height: 100vh;
+    color: #fff;
+}
+.site-stats{
+    height: 60vh;
+    padding: 100px 0;
+    font-size: large;
+
+}
+.job-results {
+    background:
+        linear-gradient(rgba(0, 128, 0, 0.5), rgba(0, 128, 0, 0.5)),
+        url('images/back-img4.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 100px 0;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.job-results .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.job-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+.job-card h4 {
+    margin-top: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.job-card p {
+    margin: 5px 0;
+}
+
+.job-card .job-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.job-card .job-info div {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.job-card .job-info div:last-child {
+    margin-right: 0;
+}
+
+.job-card .job-info p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #666;
+}
+.site-stats .col-md-3 {
+    border-right: 0.5px solid #333; /* White border for dividers */
+    padding-right: 15px;
+    padding-top: 15px;
+}
+
+.site-stats .col-md-3:last-child {
+    border-right: none; /* Remove border from the last column */
 }
 
 .hero h2 {
@@ -104,7 +205,7 @@ nav ul li a {
     border-color: #4CAF50;
 }
 
-.hero .search-btn {
+.hero button[type="submit"] {
     background-color: #4CAF50;
     color: white;
     padding: 15px;
@@ -114,7 +215,7 @@ nav ul li a {
     font-size: 16px;
 }
 
-.hero .search-btn:hover {
+.hero button[type="submit"]:hover {
     background-color: #45a049;
 }
 
@@ -240,20 +341,7 @@ h2 {
     color: #555; /* Dark gray heading */
     margin-bottom: 20px;
 }
-
-/* Profile Styles */
-/* styles.css */
-
-h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
-}
-
-/* Additional Styling for Specific Pages */
-/* Add any additional page-specific styles below */
-/* Additional Form Styles */
+/* Form Styles */
 .form-group {
     margin-bottom: 20px;
 }
@@ -295,7 +383,7 @@ h1 {
 
 .form-row label {
     width: 30%;
-    text-align: right;
+    text-align: left;
     margin-right: 20px;
 }
 
@@ -324,7 +412,7 @@ h1 {
     }
 }
 
-/* Form Styles */
+/* Add Job Form Styles */
 .add-company-form {
     background-color: #fff;
     padding: 20px;
@@ -375,10 +463,10 @@ h1 {
     background-color: #45a049;
 }
 
-/* CSS for Add Job Form */
+/* CSS for Apply Job Form */
 
 .job-section {
-    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
+    background: url('images/back-img.jpg') no-repeat center center;
     background-size: cover;
     padding: 100px 0;
     text-align: center;
@@ -491,245 +579,105 @@ h1 {
     background-color: #45a049;
 }
 
-.btn-secondary {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #6c757d;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    margin-top: 10px;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-}
-
-/* CSS for Apply Job Page */
-.apply-hero {
-    background: url('/myApp/static/images/back-img.jpg') no-repeat center center;
-    background-size: cover;
-    padding: 100px 0;
-    text-align: center;
-    color: #fff;
-}
-
-.apply-container {
-    max-width: 800px;
-    margin: 0 auto;
+/** Profile styles */
+/* General styling for the profile container */
+.profile-page-container {
+    background:
+        linear-gradient(rgba(0, 128, 0, 0.5), rgba(0, 128, 0, 0.5)),
+        url('images/back-img4.jpg') no-repeat center center fixed;
+    max-width: 95%;
+    margin: 100px auto 100px auto;
     padding: 20px;
-    background-color: #f9f9f9;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color:white;
+    font-size: larger;
+
 }
 
-.apply-container h2 {
-    font-size: 28px;
-    margin: 0 0 10px;
-    color: #333;
+/* Styling for the heading */
+.profile-page-container h2 {
+    font-size: 2rem;
+    color: #ffffff; /* Darker color for text */
+    margin-bottom: 20px;
 }
 
-.apply-container p {
-    font-size: 18px;
-    margin: 0 0 30px;
-    color: #666;
+/* Styling for the profile picture */
+.profile-pic {
+    display: block;
+    max-width: 150px;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    border: 2px solid #ddd; /* Light border around the image */
 }
 
-.apply-form {
-    margin-top: 20px;
+/* Styling for the profile picture container */
+.profile-page-container > div {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.apply-form-group {
+/* Styling for the form */
+.profile-page-container form {
+    display: flex;
+    flex-direction: column;
+}
+/* Styling for form row to create a two-column layout */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -5px; /* Adjust the negative margin to remove gaps */
+}
+
+/* Styling for form group to align labels and fields */
+.form-group {
+    flex: 1 1 50%; /* Each group takes up 50% of the row width */
+    margin: 5px; /* Adjust margin to control spacing */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Styling for form labels */
+.form-group label {
+    font-size: 1.5rem;
+    color: #fff; /* Darker color for text */
+    margin-bottom: 5px;
+
+}
+
+/* Styling for form fields */
+.profile-page-container form input[type="text"],
+.profile-page-container form input[type="email"],
+.profile-page-container form input[type="file"],
+.profile-page-container form textarea {
+    padding: 10px;
+    border: 1px solid #ccc; /* Light border for input fields */
+    border-radius: 4px;
     margin-bottom: 15px;
 }
 
-.apply-form label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.apply-form .form-control {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ccc;
+/* Styling for buttons */
+.profile-page-container form .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
     border-radius: 4px;
-    background-color: #f9f9f9;
-}
-
-.apply-form .form-control:focus {
-    outline: none;
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-}
-
-.apply-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none;
+    background-color: green; /* Dark background for button */
+    color: #fff; /* White text for button */
+    transition: background-color 0.3s ease;
 }
 
-.apply-btn-primary {
-    background-color: #007bff;
+.profile-page-container form .btn:hover {
+    background-color: #555; /* Slightly lighter background on hover */
 }
 
-.apply-btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.apply-btn-secondary {
-    background-color: #6c757d;
+/* Styling for the message about missing profile picture */
+.profile-page-container p {
+    color: #666; /* Slightly lighter color for text */
+    font-size: 1rem;
     margin-top: 10px;
-}
-
-.apply-btn-secondary:hover {
-    background-color: #5a6268;
-}
-
-.apply-text-warning {
-    color: #ffc107;
-    font-weight: bold;
-}
-
-.apply-invalid-feedback {
-    color: #dc3545;
-}
-
-.apply-form-text {
-    display: block;
-    margin-top: .25rem;
-    font-size: 80%;
-    color: #6c757d;
-}
-
-.job-results {
-    padding: 50px 0;
-    background-color: #f9f9f9;
-}
-
-.job-results .container {
-    max-width: 800px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.job-results h3 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.job-list {
-    list-style: none;
-    padding: 0;
-}
-
-.job-item {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-}
-
-.job-item h4 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.job-item p {
-    margin-bottom: 10px;
-    color: #666;
-}
-
-.job-item .btn-primary {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-}
-
-.job-item .btn-primary:hover {
-    background-color: #0056b3;
-}
-/* Existing styles... */
-
-.form-row-home {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.form-group-home {
-    flex: 1;
-    margin-right: 10px; /* Adjust spacing between fields */
-}
-
-.job-search-form-home .search-btn-home {
-    background-color: #4CAF50;
-    color: white;
-    padding: 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;}
-
-
-.job-search-form-home .search-btn-home:hover {
-    background-color: #45a049;
-}
-
-.update-section {
-    padding: 20px;
-    background-color: #f9f9f9;
-}
-
-.update-container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.update-container h2 {
-    margin-bottom: 20px;
-}
-
-.update-container p {
-    margin-bottom: 10px;
-}
-
-.update-container .btn {
-    margin-top: 20px;
-}
-
-.update-container hr {
-    margin: 30px 0;
 }
 
 /* Container */
