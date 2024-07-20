@@ -1,8 +1,8 @@
 
 {% extends 'myApp/base.html' %}
-
+{% load static %}
 {% block content %}
-<div class="form-container">
+<div class="profile-page-container">
     <h2>User Profile</h2>
 <div>
     {% if  profile_form.instance.profile_pic %}
@@ -13,8 +13,14 @@
 </div>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
-        {{ profile_form.as_p }}
+        <div class="form-row">
+            {% for field in profile_form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+        </div>
         <button type="submit" class="btn btn-primary">Update Profile</button>
     </form>
 </div>

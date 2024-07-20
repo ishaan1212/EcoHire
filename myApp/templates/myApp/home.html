@@ -1,38 +1,123 @@
 {% extends 'myApp/base.html' %}
 {% load static %}
-{% block title %}Home{% endblock %}
+{% block title %}Home {% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="container">
+<!-- Hero Section -->
+<section class="hero d-flex align-items-center justify-content-center">
+    <div class="container text-center">
         <h2>The Easiest Way to Get Your New Job</h2>
-        <p>Find jobs, create trackable resumes and enrich your applications.</p>
+        <p>Find jobs, create trackable resumes, and enrich your applications.</p>
         <form method="get" class="job-search-form">
             {{ form.as_p }}
-            <button type="submit" class="search-btn">Search Jobs</button>
+            <button type="submit" class="btn btn-primary">Search Jobs</button>
         </form>
     </div>
 </section>
-
-<section class="job-results">
+   <!-- Job Results Section -->
+<section class="job-results py-5">
     <div class="container">
         <h3>Search Results</h3>
         {% if jobs %}
-            <ul>
+            <div class="row">
                 {% for job in jobs %}
-                    <li>
-                        <h4>{{ job.title }}</h4>
-                        <p><strong>Company:</strong> {{ job.company }}</p>
-                        <p><strong>Location:</strong> {{ job.location }}</p>
-                        <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
-                        <p>{{ job.description }}</p>
-                        <!-- Add more details as needed -->
-                    </li>
+                    <div class="col-md-6">
+                        <div class="job-card">
+                            <h4>{{ job.title }}</h4>
+                            <p><strong>Company:</strong> {{ job.company }}</p>
+                            <p><strong>Location:</strong> {{ job.location }}</p>
+                            <div class="job-info">
+                                <div>
+                                    <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
+                                </div>
+                                <div>
+                                    <p><strong>Posted:</strong> {{ job.posted_date }}</p>
+                                </div>
+                                <div>
+                                    <p><strong>Salary:</strong> {{ job.salary }}</p>
+                                </div>
+                            </div>
+                            <p>{{ job.description }}</p>
+                        </div>
+                    </div>
                 {% endfor %}
-            </ul>
+            </div>
         {% else %}
             <p>No jobs found matching your search criteria.</p>
         {% endif %}
     </div>
 </section>
+
+<!-- Companies We've Helped Section -->
+<section class="companies-helped py-5">
+    <div class="container text-center">
+        <h3>Companies We've Helped</h3>
+        <p>Some of the companies we've helped recruit excellent applicants over the years.</p>
+        <div class="row">
+            <!-- Add company logos here -->
+            <div class="col-md-2">
+                <img src="{% static 'images/company-logo1.png' %}" class="img-fluid" alt="Company 1">
+            </div>
+            <div class="col-md-2">
+                <img src="{% static 'images/company-logo2.png' %}" class="img-fluid" alt="Company 2">
+            </div>
+            <div class="col-md-2">
+                <img src="{% static 'images/company-logo3.png' %}" class="img-fluid" alt="Company 3">
+            </div>
+            <div class="col-md-2">
+                <img src="{% static 'images/company-logo4.png' %}" class="img-fluid" alt="Company 3">
+            </div>
+            <div class="col-md-2">
+                <img src="{% static 'images/company-logo5.png' %}" class="img-fluid" alt="Company 3">
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Get Started Section -->
+<section class="get-started py-5 bg-light">
+    <div class="container text-center">
+        <h3>Join the Green Revolution</h3>
+        <p>Post a job with us and support a greener future. By working with eco-conscious freelancers, you contribute to sustainable practices and help build a more environmentally friendly community.</p>
+        <a href="{% url 'myApp:Addjobs' %}" class="btn btn-success">Post a Green Job</a>
+    </div>
+</section>
+
+<!-- Jobify Site Stats Section -->
+<section class="site-stats py-5">
+    <div class="container text-center">
+        <h3>Jobify Site Stats</h3>
+        <p>Here we list our site stats and how many people we’ve helped find a job and companies have found recruits. It's a pretty awesome stats area!</p>
+        <div class="row">
+            <div class="col-md-3">
+                <h4>10,000+</h4>
+                <p>Jobs Posted</p>
+            </div>
+            <div class="col-md-3">
+                <h4>5,000+</h4>
+                <p>Members</p>
+            </div>
+            <div class="col-md-3">
+                <h4>2,000+</h4>
+                <p>Resumes Posted</p>
+            </div>
+            <div class="col-md-3">
+                <h4>1,000+</h4>
+                <p>Companies</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Get Started Section -->
+<section class="discover-company py-5 bg-light">
+    <div class="container text-left">
+        <h3>Hundreds of Jobs From All Over the Globe</h3>
+        <p>Kick-start your career with environmental sustainability</p>
+        <a href="{% url 'myApp:jobs' %}" class="btn btn-success">Explore Jobs</a>
+    </div>
+</section>
+
+
 {% endblock %}

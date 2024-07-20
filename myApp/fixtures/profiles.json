@@ -1,0 +1,16 @@
+[
+{
+    "model": "myApp.profile",
+    "pk": 1,
+    "fields": {
+        "user": 2,
+        "bio": "Tech savvy",
+        "profile_pic": "profile_pics/pic1_3frk4XZ.jpg",
+        "phone_number": "5199845541",
+        "address": "548 Caron Avenue",
+        "city": "Windsor",
+        "country": "Canada",
+        "date_of_birth": "2024-07-03"
+    }
+}
+]
