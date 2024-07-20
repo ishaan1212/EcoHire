@@ -26,7 +26,6 @@
     </div>
 </section>
 
-    {% if user.is_authenticated %}
 <section class="job-results">
     <div class="container">
         <h3>Search Results</h3>
@@ -38,12 +37,18 @@
                 <p><strong>Location:</strong> {{ job.location }}</p>
                 <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
                 <p>{{ job.description }}</p>
-                <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary">Apply Now</a>            </li>
+                 {% if user.is_authenticated %}
+                    {% if not user.profile.is_recruiter %}
+                        <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary">Apply Now</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'myApp:signup' %}" class="btn btn-primary">Sign Up to Apply</a>
+                {% endif %}
+            </li>
             {% empty %}
             <li>No jobs found matching your search criteria.</li>
             {% endfor %}
         </ul>
     </div>
 </section>
-    {% endif %}
 {% endblock %}

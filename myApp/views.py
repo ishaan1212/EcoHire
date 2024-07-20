@@ -180,9 +180,8 @@ def job_detail(request, job_id):
 
 
 @login_required
-@user_passes_test(lambda u: u.is_staff)
-def update_application_review(request, application_id):
-    application = get_object_or_404(Application, pk=application_id)
+def change_application_status(request, application_id):
+    application = get_object_or_404(Application, id=application_id)
     if request.method == 'POST':
         form = ApplicationReviewForm(request.POST, instance=application)
         if form.is_valid():

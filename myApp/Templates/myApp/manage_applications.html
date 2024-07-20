@@ -7,38 +7,113 @@
 <section class="manage-applications-section">
     <div class="container">
         <h2>Manage Applications</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Job Title</th>
-                    <th>Applicant</th>
-                    <th>Status</th>
-                    <th>Resume</th>
-                    <th>Cover Letter</th>
-                    <th>Motivation Letter</th>
-                    <th>Experience</th>
-                    <th>Skills</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for application in applications %}
-                <tr>
-                    <td>{{ application.job.title }}</td>
-                    <td>{{ application.user.username }}</td>
-                    <td>{{ application.get_status_display }}</td>
-                    <td><a href="{{ application.resume.url }}">Download</a></td>
-                    <td><a href="{{ application.cover_letter.url }}">Download</a></td>
-                    <td>{{ application.motivation_letter }}</td>
-                    <td>{{ application.experience }}</td>
-                    <td>{{ application.skills }}</td>
-                    <td>
-                        <a href="{% url 'myApp:change_application_status' application.id %}" class="btn btn-primary">Review</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+
+        <!-- Section for Pending Applications -->
+        <div class="pending-applications">
+            <h3>Pending Applications</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Applicant</th>
+                        <th>Status</th>
+                        <th>Resume</th>
+                        <th>Cover Letter</th>
+                        <th>Motivation Letter</th>
+                        <th>Experience</th>
+                        <th>Skills</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    {% if application.status == "pending" %}
+                    <tr>
+                        <td>{{ application.job.title }}</td>
+                        <td>{{ application.user.username }}</td>
+                        <td>{{ application.get_status_display }}</td>
+                        <td>
+                            {% if application.resume %}
+                                <a href="{{ application.resume.url }}">Download</a>
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if application.cover_letter %}
+                                <a href="{{ application.cover_letter.url }}">Download</a>
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </td>
+                        <td>{{ application.motivation_letter|default:"Not provided" }}</td>
+                        <td>{{ application.experience|default:"Not provided" }}</td>
+                        <td>{{ application.skills|default:"Not provided" }}</td>
+                        <td>
+                            <a href="{% url 'myApp:change_application_status' application.id %}" class="btn btn-primary">Review</a>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Section for Accepted and Rejected Applications -->
+        <div class="reviewed-applications">
+            <h3>Accepted and Rejected Applications</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Applicant</th>
+                        <th>Status</th>
+                        <th>Comments</th>
+                        <th>Resume</th>
+                        <th>Cover Letter</th>
+                        <th>Motivation Letter</th>
+                        <th>Experience</th>
+                        <th>Skills</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    {% if application.status in "Accepted Rejected" %}
+                    <tr>
+                        <td>{{ application.job.title }}</td>
+                        <td>{{ application.user.username }}</td>
+                        <td>{{ application.get_status_display }}</td>
+                        <td>
+                            {% if application.applicationreview %}
+                                {{ application.applicationreview.comments|default:"No comments" }}
+                            {% else %}
+                                No comments
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if application.resume %}
+                                <a href="{{ application.resume.url }}">Download</a>
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if application.cover_letter %}
+                                <a href="{{ application.cover_letter.url }}">Download</a>
+                            {% else %}
+                                Not available
+                            {% endif %}
+                        </td>
+                        <td>{{ application.motivation_letter|default:"Not provided" }}</td>
+                        <td>{{ application.experience|default:"Not provided" }}</td>
+                        <td>{{ application.skills|default:"Not provided" }}</td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
     </div>
 </section>
 {% endblock %}

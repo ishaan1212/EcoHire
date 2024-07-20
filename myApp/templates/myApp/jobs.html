@@ -33,7 +33,7 @@
                                 <p class="card-text">{{ job.description }}</p>
                                 <p class="card-text">{{ job.job_type }}</p>
                                 <p class="card-text"><small class="text-muted">Posted on: {{ job.published_at }}</small></p>
-                                {% if user.profile.isnot_recruiter %}
+                                {% if not user.profile.is_recruiter %}
                                     <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary">Apply Now</a>
                                 {% endif %}
                             </div>
