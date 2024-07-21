@@ -6,50 +6,17 @@
 {% block content %}
     <div class="signup-dialog">
         <h2>Login</h2>
-        <form method="post" id="loginForm">
+        <form method="post" action="{% url 'myApp:login' %}">
             {% csrf_token %}
-            {{ form.as_p }}
+            <p>
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
+            </p>
+            <p>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+            </p>
             <button type="submit" class="btn-primary">Login</button>
         </form>
-        <div id="form-messages" class="alert" style="display:none;"></div>
     </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Prevent form submission
-
-        const form = event.target;
-        const formData = new FormData(form);
-        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-
-        fetch(form.action, {
-            method: form.method,
-            body: formData,
-            headers: {
-                'X-CSRFToken': csrfToken,
-                'Accept': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const messageDiv = document.getElementById('form-messages');
-            messageDiv.style.display = 'block';
-            if (data.success) {
-                messageDiv.className = 'alert alert-success';
-                messageDiv.innerText = data.message;
-                setTimeout(() => {
-                    window.location.href = data.redirect_url; // Redirect to the appropriate page
-                }, 2000);
-            } else {
-                messageDiv.className = 'alert alert-danger';
-                messageDiv.innerText = data.message;
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-});
-</script>
 {% endblock %}

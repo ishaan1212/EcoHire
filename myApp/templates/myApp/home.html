@@ -5,7 +5,9 @@
 {% block content %}
 <!-- Hero Section -->
 <section class="hero d-flex align-items-center justify-content-center">
+
     <div class="container text-center">
+        <p class="text-right">Hello {{ user.username }}, {{ last_login_message }}</p>
         <h2>The Easiest Way to Get Your New Job</h2>
         <p>Find jobs, create trackable resumes, and enrich your applications.</p>
         <form method="get" class="job-search-form">
@@ -93,19 +95,19 @@
         <p>Here we list our site stats and how many people we’ve helped find a job and companies have found recruits. It's a pretty awesome stats area!</p>
         <div class="row">
             <div class="col-md-3">
-                <h4>10,000+</h4>
+                <h4>{{ jobs_count}}+</h4>
                 <p>Jobs Posted</p>
             </div>
             <div class="col-md-3">
-                <h4>5,000+</h4>
+                <h4>{{ member_count}}+</h4>
                 <p>Members</p>
             </div>
             <div class="col-md-3">
-                <h4>2,000+</h4>
+                <h4>{{ resumes_count}}+</h4>
                 <p>Resumes Posted</p>
             </div>
             <div class="col-md-3">
-                <h4>1,000+</h4>
+                <h4>{{ companies_count}}+</h4>
                 <p>Companies</p>
             </div>
         </div>
