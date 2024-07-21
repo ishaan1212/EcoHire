@@ -76,7 +76,8 @@ def about_us(request):
     context = {
         'title': 'About Us Page',
     }
-    return render(request, 'myApp/about_us.html', context)
+    return render(request, 'myApp/home.html', context)
+
 
 def signup(request):
     if request.method == 'POST':
@@ -91,10 +92,10 @@ def signup(request):
             login(request, user)
             if form.cleaned_data.get('is_recruiter'):
                 messages.success(request, 'Signup successful! You have been logged in as a recruiter.')
-                redirect_url = reverse('myApp:Addjobs')
+                redirect_url = reverse('myApp:home')
             else:
                 messages.success(request, 'Signup successful! You have been logged in as a job seeker.')
-                redirect_url = reverse('myApp:jobs')
+                redirect_url = reverse('myApp:home')
             return JsonResponse({'success': True, 'message': 'Signup successful! You have been logged in.', 'redirect_url': redirect_url})
         else:
             errors = {field: error.get_json_data() for field, error in form.errors.items()}
@@ -198,3 +199,19 @@ def manage_applications(request):
     applications = Application.objects.all()
 
     return render(request, 'myApp/manage_applications.html', {'applications': applications})
+
+
+# @login_required
+def profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('myApp:profile')  # Redirect to profile page upon successful update
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+
+    context = {
+        'profile_form': profile_form
+    }
+    return render(request, 'myApp/user_profile.html', context)

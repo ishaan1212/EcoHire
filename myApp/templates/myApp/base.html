@@ -17,15 +17,17 @@
             </div>
             <nav>
                 <ul>
-                    <li><a href="#">About Us</a></li>
+                    <li><a href="{% url 'myApp:home' %}">About Us</a></li>
                     {% if user.is_authenticated %}
                         {% if user.profile.is_recruiter %}
                             <li><a href="{% url 'myApp:Addjobs' %}">Post A Job</a></li>
                             <li><a href="{% url 'myApp:AddCompany' %}">Add Company</a></li>
                             <li><a href="{% url 'myApp:manage_applications' %}">Manage Applications</a></li>
+                            <li><a href="{% url 'myApp:profile' %}">Profile</a></li>
                         {% endif %}
                         <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
                         <li><a href="{% url 'myApp:logout' %}">Logout</a></li>
+                        <li><a href="{% url 'myApp:profile' %}">Profile</a></li>
                     {% else %}
                         <li><a href="{% url 'myApp:signup' %}">Sign Up</a></li>
                         <li><a href="{% url 'myApp:login' %}">Login</a></li>

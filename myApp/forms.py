@@ -58,10 +58,11 @@ class ApplicationForm(forms.ModelForm):
         self.fields['status'].initial = 'P'  # Ensure status is set to 'Pending'
         self.fields['status'].disabled = True
 
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['user', 'country', 'phone_number', 'gender']
+        fields = ['bio', 'profile_pic', 'phone_number', 'address', 'city', 'country', 'date_of_birth']
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -90,6 +91,7 @@ class JobSearchForm(forms.Form):
                                      'class': 'search-select'
                                  }))
 
+
 class ApplicationReviewForm(forms.ModelForm):
     class Meta:
         model = ApplicationReview
@@ -106,6 +108,7 @@ COUNTRIES = [
     ("DZ", "+213 Algeria"),
     # Add more countries here...
 ]
+
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)

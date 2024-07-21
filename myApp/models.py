@@ -1,9 +1,7 @@
 from datetime import timezone
-
 from django.contrib.auth.forms import UserCreationForm
 from django.db import models
 from django.contrib.auth.models import User
-
 from django import forms
 
 
@@ -15,9 +13,9 @@ class Company(models.Model):
     description = models.TextField()
     users = models.ManyToManyField(User, related_name='companies')  # Assuming many-to-many relationship
 
-
     def __str__(self):
         return self.name
+
 
 class Job(models.Model):
     JOB_TYPE_CHOICES = [
@@ -49,6 +47,7 @@ class Job(models.Model):
     def __str__(self):
         return self.title
 
+
 class Application(models.Model):
 
     STATUS_CHOICES = [
@@ -67,18 +66,24 @@ class Application(models.Model):
     motivation_letter = models.TextField(default='')  # New field for motivation letter
     experience = models.TextField(default='')  # New field for experience related to environment
     skills = models.TextField(default='')  # New field for skills related to environment
+
     def __str__(self):
         return f"{self.user.username} - {self.job.title}"
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True, null=True)
+    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
     phone_number = models.CharField(max_length=15, blank=True)
-    country = models.CharField(max_length=3, blank=True)
-    gender = models.CharField(max_length=1, choices=[('M', 'Male'), ('F', 'Female'), ('O', 'Other')], blank=True)
-    is_recruiter = models.BooleanField(default=False)
+    address = models.CharField(max_length=255, blank=True)
+    city = models.CharField(max_length=100, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
+
     def __str__(self):
-        return f'{self.user.username} Profile'
+        return self.user.username
+
 
 class ApplicationReview(models.Model):
     STATUS_CHOICES = [

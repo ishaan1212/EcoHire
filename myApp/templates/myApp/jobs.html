@@ -1,15 +1,17 @@
 {% extends 'myApp/base.html' %}
-
+{% load static %}
 {% block title %}Jobs - EcoHire{% endblock %}
 
+
+
 {% block content %}
-<div class="container mt-5">
-    <h1 class="mb-4">Available Jobs</h1>
+<div class="job-form-container">
+    <h1 class="page-title mb-4">Available Jobs</h1>
 
     <!-- Job Type Filter Form -->
-    <form method="get" class="mb-3" id="jobFilterForm">
+    <form method="get" class="job-filter-form mb-3" id="jobFilterForm">
         <div class="form-group">
-            <label for="job_type">What kind of job are you looking for:</label>
+            <label for="job_type" class="form-label">What kind of job are you looking for:</label>
             <select class="form-control" id="job_type" name="job_type">
                 <option value="">All</option>
                 <option value="Full Time"{% if request.GET.job_type == "Full Time" %} selected{% endif %}>Full Time</option>
@@ -19,7 +21,7 @@
                 <option value="Freelance"{% if request.GET.job_type == "Freelance" %} selected{% endif %}>Freelance</option>
             </select>
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-primary" id="filterButton">Filter</button>
     </form>
 
     {% if jobs_lists %}
@@ -27,14 +29,14 @@
             {% for job in jobs_lists %}
                 {% if not request.GET.job_type or request.GET.job_type == job.job_type %}
                     <div class="col-md-6 mb-4">
-                        <div class="card">
+                        <div class="job-card card">
                             <div class="card-body">
                                 <h3 class="card-title">{{ job.title }}</h3>
                                 <p class="card-text">{{ job.description }}</p>
                                 <p class="card-text">{{ job.job_type }}</p>
                                 <p class="card-text"><small class="text-muted">Posted on: {{ job.published_at }}</small></p>
                                 {% if user.profile.isnot_recruiter %}
-                                    <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary">Apply Now</a>
+                                    <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary apply-button">Apply Now</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -46,5 +48,6 @@
         <p>No jobs available.</p>
     {% endif %}
 </div>
-
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
 {% endblock %}
+

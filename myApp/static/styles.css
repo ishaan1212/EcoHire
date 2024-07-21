@@ -297,12 +297,13 @@ footer {
 /* Additional Form Styles */
 .signup-dialog {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 100px auto 100px auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    height: auto;
 }
 
 .signup-dialog h2 {
@@ -473,59 +474,91 @@ h2 {
     color: #fff;
 }
 
+/* Add this to your CSS file */
+.job-section {
+    padding: 40px 0;
+}
+
 .job-container {
-    background-color: #fff;
+    max-width: 800px;
+    margin: 100px auto;
     padding: 20px;
-    border-radius: 10px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .job-container h2 {
-    font-size: 24px;
     margin-bottom: 20px;
-    color: #333;
+    color: #006400; /* Dark green color */
 }
 
 .job-container p {
-    font-size: 16px;
-    margin-bottom: 20px;
-    color: #666;
-}
-
-.job-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.job-form .form-group {
+    color: #333;
     margin-bottom: 20px;
 }
 
-.job-form .form-label-bold {
+.apply-message {
+    color: #ff0000; /* Red color */
     font-weight: bold;
-    margin-bottom: 5px;
+}
+
+.job-form .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.job-form .form-column {
+    flex: 0 0 48%;
+}
+
+.job-form label {
     display: block;
+    margin-bottom: 5px;
+    color: #006400; /* Dark green color */
+}
+
+
+.job-form input[type="text"],
+.job-form input[type="email"],
+.job-form input[type="file"],
+.job-form input[type="tel"],
+.job-form select,
+.job-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    color: #333;  /* Dark text color */
+}
+
+.apply-btn {
+    background-color: #006400; /* Dark green color */
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+    margin-top: 30px;
+    text-decoration: none;
+}
+
+.apply-btn:hover {
+    background-color: #004b23; /* Darker green on hover */
+    text-decoration: none;
+}
+
+.apply-btn-secondary {
+    background-color: #ccc;
     color: #333;
 }
 
-.job-form input,
-.job-form select,
-.job-form textarea {
-    width: calc(100% - 20px);
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-.job-form input:focus,
-.job-form select:focus,
-.job-form textarea:focus {
-    outline: none;
-    border-color: #4CAF50;
+.apply-btn-secondary:hover {
+    background-color: #aaa;
 }
 
 .job-btn-primary {
@@ -580,7 +613,6 @@ h2 {
 }
 
 /** Profile styles */
-/* General styling for the profile container */
 .profile-page-container {
     background:
         linear-gradient(rgba(0, 128, 0, 0.5), rgba(0, 128, 0, 0.5)),
@@ -682,8 +714,8 @@ h2 {
 
 /* Container */
 .container-signup {
+    margin:100px auto 100px auto;
     max-width: 600px;
-    margin: 20px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
@@ -758,9 +790,12 @@ h2 {
 /* Hero section */
 .hero-signup {
     padding: 20px;
-    background-color: #e3f2fd;
+   background:
+        linear-gradient(rgba(0, 128, 0, 0.5), rgba(0, 128, 0, 0.5)),
+        url('images/back-img4.jpg') no-repeat center center fixed;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin:20px auto 20px auto;
+
 }
 
 .hero-signup h2 {
@@ -773,4 +808,207 @@ h2 {
     font-size: 1.1em;
     color: #666;
 }
+
+/* Container for the job listing */
+.job-form-container {
+    background-color: #ffffff; /* White background for container */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 100px auto 20px auto; /* Increased top margin */
+    height: 100vh;
+
+
+}
+
+/* Heading */
+.page-title {
+    color: #333; /* Dark text color */
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+/* Job filter form */
+.job-filter-form {
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    color: #333;
+    width: 100%;
+    height: auto;
+}
+
+#filterButton {
+    background-color: #007bff; /* Adjust background color */
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition */
+
+}
+
+#filterButton:hover {
+    background-color: #0056b3; /* Adjust hover background color */
+}
+
+/* Card Styles */
+.job-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #ffffff; /* White background for cards */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    color: #000;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.75rem;
+}
+
+.text-muted {
+    color: #888;
+}
+
+.apply-button {
+    display: inline-block;
+    background-color: #007bff; /* Adjust background color */
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.apply-button:hover {
+    background-color: #0056b3; /* Adjust hover background color */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+
+    .job-form-container {
+        width: 95%; /* Adjust for smaller screens */
+        margin: 10px auto; /* Adjust margins for smaller screens */
+    }
+}
+/* Add this to your CSS file */
+
+/* Container for the entire job details page */
+.job-details-container {
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #ffffff;
+
+}
+
+/* Job title styling */
+.job-title {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Card styling for job description */
+.job-description-card {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #4CAF50; /* Green color for headings */
+}
+
+.card-text {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* Applications heading styling */
+.applications-heading {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Applications list styling */
+.applications-list {
+    list-style: none;
+    padding: 0;
+}
+
+.application-item {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.application-item strong {
+    color: #333;
+}
+
+/* File link styling */
+.file-link {
+    color: #4CAF50; /* Green color for file links */
+    text-decoration: none;
+}
+
+.file-link:hover {
+    text-decoration: underline;
+}
+
+/* Muted text styling */
+.text-muted {
+    color: #888;
+}
+
+
 

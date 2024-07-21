@@ -1,4 +1,3 @@
-<!-- Appljob.html -->
 {% extends 'myApp/base.html' %}
 {% load static %}
 
@@ -15,11 +14,43 @@
         {% else %}
             <form method="post" enctype="multipart/form-data" class="job-form">
                 {% csrf_token %}
-                {{ form.as_p }}
+                 <div class="form-row">
+                    <div class="form-column">
+                        {{ form.user.label_tag }} {{ form.user }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-column">
+                        {{ form.resume.label_tag }} {{ form.resume }}
+                    </div>
+                    <div class="form-column">
+                        {{ form.cover_letter.label_tag }} {{ form.cover_letter }}
+                    </div>
+                </div>
+                <div class="form-row full-width">
+                    <div class="col">
+                        {{ form.motivation_letter.label_tag }} {{ form.motivation_letter }}
+                    </div>
+                </div>
+                <div class="form-row full-width">
+                    <div class="col">
+                        {{ form.experience.label_tag }} {{ form.experience }}
+                    </div>
+                </div>
+                <div class="form-row full-width">
+                    <div class="col">
+                        {{ form.skills.label_tag }} {{ form.skills }}
+                    </div>
+                </div>
+                 <div class="form-column">
+                        {{ form.status.label_tag }} {{ form.status }}
+                    </div>
                 <button type="submit" class="apply-btn">Submit Application</button>
+               <button class="apply-btn"><a href="#" onclick="history.go(-1); return false;" class="apply-btn">Go Back</a></button>
             </form>
         {% endif %}
-        <a href="#" onclick="history.go(-1); return false;" class="apply-btn apply-btn-secondary">Go Back</a>
+
     </div>
 </section>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
 {% endblock %}
