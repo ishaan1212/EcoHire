@@ -137,8 +137,3 @@ class SignUpForm(UserCreationForm):
         return user
 
 
-class CustomLoginForm(AuthenticationForm):
-    remember_me = forms.BooleanField(required=False, widget=forms.CheckboxInput())
-
-    class Meta:
-        fields = ['username', 'password', 'remember_me']
