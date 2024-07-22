@@ -1,0 +1,33 @@
+{% extends 'myApp/base.html' %}
+{% block content %}
+    <h2>Your Initiatives</h2>
+<section class="job-results py-5">
+    <div class="container">
+        <h3>Your Environmental Contributions</h3>
+        {% if contributions %}
+            <div class="row">
+                {% for contribution in contributions %}
+                    <div class="col-md-6">
+                        <div class="job-card">
+                            <h4>{{ contribution.initiative.title }}</h4>
+                            <p><strong>Company:</strong> {{ contribution.initiative.company.name }}</p>
+                            <p><strong>Location:</strong> {{ contribution.initiative.location }}</p>
+                            <div class="job-info">
+                                <div>
+                                    <p><strong>Start Date:</strong> {{ contribution.initiative.start_date }}</p>
+                                </div>
+                                <div>
+                                    <p><strong>End Date:</strong> {{ contribution.initiative.end_date }}</p>
+                                </div>
+                            </div>
+                            <p><strong>Details:</strong> {{ contribution.contribution_details }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No Initiatives found!</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

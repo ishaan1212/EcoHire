@@ -33,7 +33,7 @@
                     <td>{{ application.experience }}</td>
                     <td>{{ application.skills }}</td>
                     <td>
-                        <a href="{% url 'myApp:change_application_status' application.id %}" class="btn btn-primary">Review</a>
+                        <a href="{% url 'myApp:update_application_review' application.id %}" class="btn btn-primary">Review</a>
                     </td>
                 </tr>
                 {% endfor %}

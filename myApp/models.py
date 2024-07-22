@@ -49,7 +49,6 @@ class Job(models.Model):
 
 
 class Application(models.Model):
-
     STATUS_CHOICES = [
         ('P', 'Pending'),
         ('A', 'Accepted'),
@@ -62,7 +61,8 @@ class Application(models.Model):
     resume = models.FileField(upload_to='resumes/')
     cover_letter = models.FileField(upload_to='cover_letters/', blank=True, null=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
-    applied_on = models.DateTimeField(auto_now_add=True)   #the auto_now_add field explains that when a new instance is created, the time is switched to current date time
+    applied_on = models.DateTimeField(
+        auto_now_add=True)  #the auto_now_add field explains that when a new instance is created, the time is switched to current date time
     motivation_letter = models.TextField(default='')  # New field for motivation letter
     experience = models.TextField(default='')  # New field for experience related to environment
     skills = models.TextField(default='')  # New field for skills related to environment
@@ -80,6 +80,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=100, blank=True)
     country = models.CharField(max_length=100, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
+    is_recruiter = models.BooleanField(default=False)
 
     def __str__(self):
         return self.user.username
@@ -102,3 +103,23 @@ class ApplicationReview(models.Model):
         return f"{self.application.user.username} - {self.application.job.title} - {self.get_status_display()}"
 
 
+class EnvironmentalInitiative(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    location = models.CharField(max_length=100, blank=True)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.title
+
+
+class UserContribution(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    initiative = models.ForeignKey(EnvironmentalInitiative, on_delete=models.CASCADE)
+    contribution_details = models.TextField()
+    contribution_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.initiative.title}"

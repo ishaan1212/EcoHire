@@ -19,14 +19,15 @@
             <nav>
                 <ul>
                     <li><a href="{% url 'myApp:home' %}">About Us</a></li>
+                    <li><a href="{% url 'myApp:initiatives_list' %}">Initiatives</a></li>
                     {% if user.is_authenticated %}
                         {% if user.profile.is_recruiter %}
                             <li><a href="{% url 'myApp:Addjobs' %}">Post A Job</a></li>
                             <li><a href="{% url 'myApp:AddCompany' %}">Add Company</a></li>
                             <li><a href="{% url 'myApp:manage_applications' %}">Manage Applications</a></li>
-                            <li><a href="{% url 'myApp:profile' %}">Profile</a></li>
+                        {% else %}
+                            <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
                         {% endif %}
-                        <li><a href="{% url 'myApp:jobs' %}">Find A Job</a></li>
                         <li><a href="{% url 'myApp:logout' %}">Logout</a></li>
                         <li><a href="{% url 'myApp:profile' %}">Profile</a></li>
                     {% else %}

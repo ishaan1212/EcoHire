@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Job, Company, Application, Profile
+from .models import Job, Company, Application, Profile, EnvironmentalInitiative
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Job, Company, Application, Profile, ApplicationReview
 
@@ -136,4 +136,12 @@ class SignUpForm(UserCreationForm):
             profile.save()
         return user
 
+
+# forms.py
+class EnvironmentalInitiativeForm(forms.ModelForm):
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    end_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+    class Meta:
+        model = EnvironmentalInitiative
+        fields = ['title', 'description', 'start_date', 'end_date', 'location', 'company']
 

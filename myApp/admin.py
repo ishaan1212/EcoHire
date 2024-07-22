@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Company, Job, Application, Profile
+from .models import Company, Job, Application, Profile, EnvironmentalInitiative, UserContribution
 
 
 # Customizing Company model admin
@@ -38,4 +38,5 @@ admin.site.register(Company, CompanyAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(Application, ApplicationAdmin)
 admin.site.register(Profile, ProfileAdmin)
-
+admin.site.register(EnvironmentalInitiative)
+admin.site.register(UserContribution)

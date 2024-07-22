@@ -3,9 +3,10 @@ from datetime import datetime
 from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
+from django.utils.timezone import now
 
-from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm
-from myApp.models import Job, Application, Profile, Company
+from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm, EnvironmentalInitiativeForm
+from myApp.models import Job, Application, Profile, Company, EnvironmentalInitiative, UserContribution
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView
@@ -116,6 +117,7 @@ def signup(request):
             user.profile.phone_number = form.cleaned_data.get('phone_number')
             user.profile.country = form.cleaned_data.get('country')
             user.profile.gender = form.cleaned_data.get('gender')
+            user.profile.is_recruiter = form.cleaned_data.get('is_recruiter')
             user.save()
             login(request, user)
             if form.cleaned_data.get('is_recruiter'):
@@ -256,3 +258,73 @@ def profile(request):
         'applications': applications
     }
     return render(request, 'myApp/user_profile.html', context)
+
+
+@login_required
+def initiatives_list(request):
+    initiatives = EnvironmentalInitiative.objects.all()
+    user_contributions = UserContribution.objects.filter(user=request.user)
+    enrolled_initiatives_ids = user_contributions.values_list('initiative_id', flat=True)
+    contributions_dict = {contribution.initiative_id: contribution for contribution in user_contributions}
+
+    for initiative in initiatives:
+        initiative.is_enrolled = initiative.id in enrolled_initiatives_ids
+        initiative.contribution_id = contributions_dict[initiative.id].id if initiative.is_enrolled else None
+
+    return render(request, 'myApp/initiatives_list.html', {'initiatives': initiatives})
+
+
+@login_required
+def user_contributions(request):
+    contributions = UserContribution.objects.filter(user=request.user)
+    return render(request, 'myApp/user_contributions.html', {'contributions': contributions})
+
+@login_required
+def enroll_initiative(request, initiative_id):
+    if request.method == 'POST':
+        initiative = EnvironmentalInitiative.objects.get(id=initiative_id)
+        # Check if the user has already enrolled
+        if not UserContribution.objects.filter(user=request.user, initiative=initiative).exists():
+            UserContribution.objects.create(
+                user=request.user,
+                initiative=initiative,
+                contribution_details="Enrolled with no specific contribution yet."
+            )
+        return redirect('myApp:initiatives_list')  # Redirect back to the initiatives page
+
+
+@login_required
+def add_initiative(request):
+    if request.method == 'POST':
+        form = EnvironmentalInitiativeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Environmental initiative added successfully!')
+            return redirect('myApp:initiatives_list')  # Change 'myApp:home' to your desired redirect URL
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = EnvironmentalInitiativeForm()
+    return render(request, 'myApp/add_initiative.html', {'form': form})
+
+
+@login_required
+def delete_initiative(request, initiative_id):
+    initiative = get_object_or_404(EnvironmentalInitiative, id=initiative_id)
+    if request.user.profile.is_recruiter:
+        initiative.delete()
+        messages.success(request, 'Initiative deleted successfully!')
+    else:
+        messages.error(request, 'You do not have permission to delete this initiative.')
+    return redirect('myApp:initiatives_list')
+
+
+@login_required
+def delete_contribution(request, contribution_id):
+    contribution = get_object_or_404(UserContribution, id=contribution_id)
+    if request.user == contribution.user:
+        contribution.delete()
+        messages.success(request, 'You have successfully unenrolled from the initiative.')
+    else:
+        messages.error(request, 'You do not have permission to unenroll from this initiative.')
+    return redirect('myApp:initiatives_list')

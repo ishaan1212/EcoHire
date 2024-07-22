@@ -1,0 +1,50 @@
+<!-- add_initiative.html -->
+
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Add Initiative - EcoHire{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h2>Add an Initiative</h2>
+        <p>Fill out the form below to add a new Initiative.</p>
+        <form method="post" class="add-initiative-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id_title" class="form-label-bold">Title:</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_description" class="form-label-bold">Description:</label>
+                {{ form.description }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_start_date" class="form-label-bold">Start Date:</label>
+                {{ form.start_date }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_end_date" class="form-label-bold">End Date:</label>
+                {{ form.end_date }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_location" class="form-label-bold">Location:</label>
+                {{ form.location }}
+            </div>
+
+            <div class="form-group">
+                <label for="id_company" class="form-label-bold">Company:</label>
+                {{ form.company }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

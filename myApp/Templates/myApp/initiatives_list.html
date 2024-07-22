@@ -1,0 +1,63 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+{% block content %}
+<section class="job-results py-5">
+    <div class="container">
+        <div class="d-flex align-items-center">
+    <h3>Environmental Initiatives</h3>
+    {% if user.profile.is_recruiter %}
+        <a href="{% url 'myApp:add_initiative' %}" class="btn btn-danger btn-sm m-3">Add Initiative</a>
+    {% endif %}
+</div>
+
+        {% if initiatives %}
+    <div class="row">
+        {% for initiative in initiatives %}
+            <div class="col-md-6">
+                <div class="job-card">
+                    <h4>{{ initiative.title }}</h4>
+                    <p><strong>Company:</strong> {{ initiative.company.name }}</p>
+                    <p><strong>Location:</strong> {{ initiative.location }}</p>
+                    <div class="job-info">
+                        <div>
+                            <p><strong>Start Date:</strong> {{ initiative.start_date|date:"Y-m-d" }}</p>
+                        </div>
+                        <div>
+                            <p><strong>End Date:</strong> {{ initiative.end_date|date:"Y-m-d" }}</p>
+                        </div>
+                    </div>
+                    <p><strong>Description:</strong> {{ initiative.description }}</p>
+                    {% if request.user.is_authenticated %}
+                        {% if initiative.is_enrolled %}
+                            <span class="alert-signup-success">You are enrolled</span>
+                            <form action="{% url 'myApp:delete_contribution' initiative.contribution_id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Unenroll</button>
+                            </form>
+                        {% else %}
+                            {% if not user.profile.is_recruiter %}
+                                <form action="{% url 'myApp:enroll_initiative' initiative.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-success">Enroll</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+
+                        {% if user.profile.is_recruiter %}
+                            <form action="{% url 'myApp:delete_initiative' initiative.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No Initiatives found!</p>
+{% endif %}
+
+    </div>
+</section>
+{% endblock %}
