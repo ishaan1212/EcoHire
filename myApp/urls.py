@@ -3,6 +3,7 @@ from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
+
 app_name = 'myApp'
 urlpatterns = [
     path('', views.home, name='home'),
@@ -25,6 +26,13 @@ urlpatterns = [
     path('add_initiative/', views.add_initiative, name='add_initiative'),
     path('delete_initiative/<int:initiative_id>/', views.delete_initiative, name='delete_initiative'),
     path('delete_contribution/<int:contribution_id>/', views.delete_contribution, name='delete_contribution'),
+    path('faq/submit/', views.faq_submission, name='faq_submission'),
+    path('faqs/', views.faq_list, name='faq_list'),
+    path('faq/<int:faq_id>/answer/', views.answer_faq, name='answer_faq'),
+    path('eco-survey/<int:company_id>/', views.eco_survey, name='eco-survey'),
+    path('select-company/', views.select_company_for_eco_verification, name='select_company'),
+    path('get-companies/', views.get_companies, name='get_companies'),
+
     # Add more paths for other pages as needed
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

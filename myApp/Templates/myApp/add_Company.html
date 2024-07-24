@@ -35,6 +35,14 @@
 
             <button type="submit">Submit</button>
         </form>
+        <!-- Get Eco-Verified Button -->
+        <div class="eco-verify-button">
+            {% if company %}
+                <a href="{% url 'myApp:eco-survey' company.id %}" class="btn btn-success">Get Eco-Verified</a>
+            {% else %}
+                <p class="text-muted">Save the company first to get eco-verified.</p>
+            {% endif %}
+        </div>
     </div>
 </section>
 {% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="ans-container">
+    <h1>Answer FAQ</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="ans-submit-button">Submit Answer</button>
+    </form>
+    <a href="{% url 'myApp:faq_list' %}" class="back-link">Back to FAQs</a>
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,34 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+{% block title %}Submit FAQ{% endblock %}
+
+{% block content %}
+<div class="faq-container">
+    <h1>Submit Your Query</h1>
+    <form method="post" class="faq-form">
+        {% csrf_token %}
+        <div class="faq-group">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+        </div>
+        <div class="faq-group">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+        </div>
+        <div class="faq-group">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        <div class="faq-group">
+            {{ form.question.label_tag }}
+            {{ form.question }}
+        </div>
+        <button type="submit" class="submit-button">Submit</button>
+    </form>
+    <a href="{% url 'myApp:faq_list' %}" class="view-faqs">View FAQs</a>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'faq_submission.css' %}">
+{% endblock %}

@@ -1,64 +1,63 @@
 {% extends 'myApp/base.html' %}
 {% load static %}
 {% block content %}
-<div class="profcontainer">
-    <div class="row">
-        <!-- User Profile Details -->
-        <div class="col-md-8">
-            <div class="profile-page-container">
-                <h2>User Profile</h2>
-                <div>
-                    {% if profile_form.instance.profile_pic %}
-                        <img src="{{ profile_form.instance.profile_pic.url }}" alt="Profile Picture" class="profile-pic img-fluid">
-                    {% else %}
-                        <p>No profile picture found.</p>
-                    {% endif %}
-                </div>
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-pic-container">
+            {% if profile_form.instance.profile_pic %}
+                <img src="{{ profile_form.instance.profile_pic.url }}" alt="Profile Picture" class="profile-pic">
+            {% else %}
+                <img src="{% static 'images/back-img.jpg' %}" alt="Default Profile Picture" class="profile-pic">
+            {% endif %}
+        </div>
+        <div class="profile-info">
+            <h1>{{ request.user.username }}</h1>
+            <p class="headline">{{ request.user.profile.bio|default:"No bio available" }}</p>
+            <p class="email">{{ request.user.email }}</p>
+        </div>
+    </div>
+
+    <div class="profile-content">
+        <!-- Left Column: Profile Details -->
+        <div class="left-column">
+            <div class="profile-card">
+                <h3>Update Profile</h3>
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="form-row">
-                        {% for field in profile_form %}
-                            <div class="form-group">
-                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                {{ field }}
-                            </div>
-                        {% endfor %}
-                    </div>
+                    {% for field in profile_form %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
                     <button type="submit" class="btn btn-primary">Update Profile</button>
                 </form>
             </div>
         </div>
 
-        <!-- Job Applications -->
-        <div class="col-md-4">
-            <section class="applications-results py-5">
-                <div class="container-fluid">
-                    <h3>Job Applications</h3>
-                    {% if applications %}
-                        <div class="row">
-                            {% for application in applications %}
-                                <div class="col-md-12">
-                                    <div class="job-card mb-3 p-3 border rounded">
-                                        <a href="{% url 'myApp:job_detail' job_id=application.job.id %}">
-                                                <h4>{{ application.job.title }}</h4>
-                                            </a>
-                                        <p><strong>Company:</strong> {{ application.company.name }}</p>
-                                        <p><strong>Location:</strong> {{ application.company.location }}</p>
-                                        <div class="job-info d-flex justify-content-between">
-                                            <p><strong>Job Type:</strong> {{ application.job.get_job_type_display }}</p>
-                                            <p><strong>Applied On:</strong> {{ application.applied_on|date:"Y-m-d" }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <p>No job applications found.</p>
-                    {% endif %}
-                </div>
+        <!-- Right Column: Job Applications -->
+        <div class="right-column">
+            <div class="profile-card">
+                <h3>Job Applications</h3>
+                {% if applications %}
+                    <div class="job-cards">
+                        {% for application in applications %}
+                            <div class="job-card">
+                                <a href="{% url 'myApp:job_detail' job_id=application.job.id %}">
+                                    <h4>{{ application.job.title }}</h4>
+                                </a>
+                                <p><strong>Company:</strong> {{ application.company.name }}</p>
+                                <p><strong>Location:</strong> {{ application.company.location }}</p>
+                                <p><strong>Job Type:</strong> {{ application.job.get_job_type_display }}</p>
+                                <p><strong>Applied On:</strong> {{ application.applied_on|date:"Y-m-d" }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>No job applications found.</p>
+                {% endif %}
                 <a href="{% url 'myApp:user_contributions' %}" class="btn btn-primary">Your Environmental Contributions</a>
-            </section>
-
+            </div>
         </div>
     </div>
 </div>

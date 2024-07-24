@@ -1,5 +1,4 @@
-from datetime import timezone
-from django.contrib.auth.forms import UserCreationForm
+
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
@@ -12,6 +11,8 @@ class Company(models.Model):
     website = models.CharField(max_length=50)
     description = models.TextField()
     users = models.ManyToManyField(User, related_name='companies')  # Assuming many-to-many relationship
+    is_eco_verified = models.BooleanField(default=False)
+    eco_verified_date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -49,6 +50,7 @@ class Job(models.Model):
 
 
 class Application(models.Model):
+
     STATUS_CHOICES = [
         ('P', 'Pending'),
         ('A', 'Accepted'),
@@ -123,3 +125,44 @@ class UserContribution(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.initiative.title}"
+
+
+class FAQ(models.Model):
+    question = models.CharField(max_length=255)
+    answer = models.TextField()
+    is_published = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.question
+
+
+class EcoSurvey(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    submitted_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    submission_date = models.DateField(auto_now_add=True)
+
+    energy_efficiency = models.IntegerField(default=0)
+    waste_management = models.IntegerField(default=0)
+    sustainable_sourcing = models.IntegerField(default=0)
+    water_conservation = models.IntegerField(default=0)
+    employee_training = models.IntegerField(default=0)
+    green_certifications = models.IntegerField(default=0)
+    carbon_footprint = models.IntegerField(default=0)
+    renewable_energy = models.IntegerField(default=0)
+
+    @property
+    def total_score(self):
+        return (
+            self.energy_efficiency +
+            self.waste_management +
+            self.sustainable_sourcing +
+            self.water_conservation +
+            self.employee_training +
+            self.green_certifications +
+            self.carbon_footprint +
+            self.renewable_energy
+        )
+
+
+
+

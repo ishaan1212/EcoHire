@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Company, Job, Application, Profile, EnvironmentalInitiative, UserContribution
+from .models import Company, Job, Application, Profile, EnvironmentalInitiative, UserContribution, FAQ, EcoSurvey
 
 
 # Customizing Company model admin
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('name', 'location', 'website')
+    list_display = ('id', 'name', 'location', 'website')
     search_fields = ('name', 'location')
     list_filter = ('location',)
 
@@ -33,6 +33,11 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ('city', 'country')
 
 
+class FAQAdmin(admin.ModelAdmin):
+    list_display = ('question', 'answer', 'is_published')
+    search_fields = ('question', 'answer')
+
+
 # Registering models with admin site
 admin.site.register(Company, CompanyAdmin)
 admin.site.register(Job, JobAdmin)
@@ -40,3 +45,6 @@ admin.site.register(Application, ApplicationAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(EnvironmentalInitiative)
 admin.site.register(UserContribution)
+admin.site.register(FAQ, FAQAdmin)
+admin.site.register(EcoSurvey)
+

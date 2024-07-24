@@ -3,17 +3,20 @@ from datetime import datetime
 from django.contrib.auth import logout
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.timezone import now
+from django.views.generic import UpdateView
 
-from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm, EnvironmentalInitiativeForm
-from myApp.models import Job, Application, Profile, Company, EnvironmentalInitiative, UserContribution
+from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm, EnvironmentalInitiativeForm, FAQForm, \
+    AnswerFAQForm, EcoSurveyForm, SelectCompanyForm
+from myApp.models import Job, Application, Profile, Company, EnvironmentalInitiative, UserContribution, Company,  FAQ
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from .forms import SignUpForm
 
-from myApp.forms import ProfileForm, UserRegistrationForm
+from myApp.forms import ProfileForm
 from myApp.models import Job
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -91,6 +94,7 @@ def addJob(request):
         form = JobForm()
     return render(request, 'job/add_job.html', {'form': form})
 
+
 def addCompany(request):
     if request.method == 'POST':
         form = CompanyForm(request.POST)
@@ -100,6 +104,7 @@ def addCompany(request):
     else:
         form = CompanyForm()
     return render(request, 'myApp/add_Company.html', {'form': form})
+
 
 def about_us(request):
     context = {
@@ -117,7 +122,6 @@ def signup(request):
             user.profile.phone_number = form.cleaned_data.get('phone_number')
             user.profile.country = form.cleaned_data.get('country')
             user.profile.gender = form.cleaned_data.get('gender')
-            user.profile.is_recruiter = form.cleaned_data.get('is_recruiter')
             user.save()
             login(request, user)
             if form.cleaned_data.get('is_recruiter'):
@@ -133,6 +137,7 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'myApp/signup.html', {'form': form})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -166,6 +171,8 @@ def login_view(request):
                 return render(request, 'myApp/login.html', {'error_message': 'Invalid credentials.'})
     else:
         return render(request, 'myApp/login.html')
+
+
 # @login_required
 def logout_view(request):
     logout(request)
@@ -213,6 +220,7 @@ def apply_job(request, job_id):
         'already_applied': already_applied
     })
 
+
 def job_detail(request, job_id):
     job = get_object_or_404(Job, pk=job_id)
     applications = Application.objects.filter(job=job, user=request.user)
@@ -231,6 +239,7 @@ def update_application_review(request, application_id):
     else:
         form = ApplicationReviewForm(instance=application)
     return render(request, 'myApp/update_application_review.html', {'form': form, 'application': application})
+
 
 @login_required
 def manage_applications(request):
@@ -278,6 +287,7 @@ def initiatives_list(request):
 def user_contributions(request):
     contributions = UserContribution.objects.filter(user=request.user)
     return render(request, 'myApp/user_contributions.html', {'contributions': contributions})
+
 
 @login_required
 def enroll_initiative(request, initiative_id):
@@ -328,3 +338,79 @@ def delete_contribution(request, contribution_id):
     else:
         messages.error(request, 'You do not have permission to unenroll from this initiative.')
     return redirect('myApp:initiatives_list')
+
+
+def faq_submission(request):
+    if request.method == 'POST':
+        form = FAQForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            question = form.cleaned_data['question']
+
+            # Save the FAQ to the database (you may need to create a new FAQ instance or handle it differently)
+            FAQ.objects.create(question=question)
+
+            # Optionally, you can send a confirmation email or handle the data as needed
+
+            return redirect('myApp:faq_list')  # Redirect to the FAQ list or another page
+    else:
+        form = FAQForm()
+
+    return render(request, 'myApp/faq_submission.html', {'form': form})
+
+
+def faq_list(request):
+    faqs = FAQ.objects.filter(is_published=True)
+    return render(request, 'myApp/faq_list.html', {'faqs': faqs})
+
+
+def answer_faq(request, faq_id):
+    faq = get_object_or_404(FAQ, id=faq_id)
+
+    if request.method == 'POST':
+        form = AnswerFAQForm(request.POST, instance=faq)
+        if form.is_valid():
+            form.save()
+            return redirect('myApp:faq_list')
+    else:
+        form = AnswerFAQForm(instance=faq)
+
+    return render(request, 'myApp/answer_faq.html', {'form': form, 'faq': faq})
+
+
+def eco_survey(request, company_id):
+    company = get_object_or_404(Company, id=company_id)
+    if request.method == 'POST':
+        form = EcoSurveyForm(request.POST)
+        if form.is_valid():
+            survey = form.save(commit=False)
+            survey.company = company
+            survey.submitted_by = request.user
+            survey.save()
+            # Logic to verify the company based on survey responses
+            if survey.total_score >= 50:  # Assuming a threshold score of 50
+                company.is_eco_verified = True
+                company.eco_verified_date = datetime.now()
+                company.save()
+            return redirect('myApp:home')
+    else:
+        form = EcoSurveyForm()
+    return render(request, 'myApp/eco_survey.html', {'form': form, 'company': company})
+
+
+def select_company_for_eco_verification(request):
+    if request.method == 'POST':
+        form = SelectCompanyForm(request.POST)
+        if form.is_valid():
+            company = form.cleaned_data['company']
+            return redirect('myApp:eco-survey', company_id=company.id)
+    else:
+        form = SelectCompanyForm()
+    return render(request, 'myApp/select_company.html', {'form': form})
+
+def get_companies(request):
+    companies = Company.objects.all().values('id', 'name')
+    return JsonResponse({'companies': list(companies)})

@@ -1,0 +1,27 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="accordion">
+    <h1>FAQs</h1>
+    {% for faq in faqs %}
+    <div class="accordion-item">
+        <button class="accordion-button">
+            {{ faq.question }}
+            <span class="accordion-icon">+</span>
+        </button>
+        <div class="accordion-content">
+            <p>{{ faq.answer }}</p>
+             {% if not faq.answer %}
+                <a href="{% url 'myApp:answer_faq' faq.id %}" class="answer-button">Answer Query</a>
+                {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+ <div class="faq-submit-container">
+    <a href="{% url 'myApp:faq_submission' %}" class="faq-submit-button">Ask Query</a>
+</div>
+</div>
+
+{% endblock %}
+<script src="{% static 'scripts/accordion.js' %}"></script>

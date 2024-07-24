@@ -34,6 +34,12 @@
                                 <h3 class="card-title">{{ job.title }}</h3>
                                 <p class="card-text">{{ job.description }}</p>
                                 <p class="card-text">{{ job.job_type }}</p>
+                            <!-- Eco-Verification Badge -->
+                            {% if job.company.is_eco_verified %}
+                                <div class="eco-verification-badge">
+                                    <img src="{% static 'images/eco_verified.png' %}" alt="Eco-Verified Badge" class="img-fluid">
+                                </div>
+                            {% endif %}
                                 <p class="card-text"><small class="text-muted">Posted on: {{ job.published_at }}</small></p>
                                 {% if user.profile.isnot_recruiter %}
                                     <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary apply-button">Apply Now</a>

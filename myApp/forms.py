@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Job, Company, Application, Profile, EnvironmentalInitiative
+from .models import Job, Company, Application, Profile, EnvironmentalInitiative, FAQ, EcoSurvey
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Job, Company, Application, Profile, ApplicationReview
 
@@ -27,13 +27,14 @@ class JobForm(forms.ModelForm):
 class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ['name', 'location', 'website', 'description']
+        fields = ['name', 'location', 'website', 'description', 'is_eco_verified', 'eco_verified_date']
 
 
 class ApplicationForm(forms.ModelForm):
     class Meta:
         model = Application
-        fields = ['job', 'company', 'user', 'resume', 'cover_letter', 'motivation_letter', 'experience', 'skills', 'status']
+        fields = ['job', 'company', 'user', 'resume', 'cover_letter', 'motivation_letter', 'experience', 'skills',
+                  'status']
         widgets = {
             'status': forms.TextInput(attrs={'readonly': True, 'class': 'form-control'}),
             'motivation_letter': forms.Textarea(attrs={'rows': 4}),
@@ -65,18 +66,6 @@ class ProfileForm(forms.ModelForm):
         fields = ['bio', 'profile_pic', 'phone_number', 'address', 'city', 'country', 'date_of_birth']
 
 
-class UserRegistrationForm(UserCreationForm):
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirm Password'}))
-
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'password1', 'password2']
-
-
 class JobSearchForm(forms.Form):
     keywords = forms.CharField(required=False, widget=forms.TextInput(attrs={
         'placeholder': 'Keywords',
@@ -97,9 +86,10 @@ class ApplicationReviewForm(forms.ModelForm):
         model = ApplicationReview
         fields = ['status', 'comments']
 
-    job_type = forms.ChoiceField(required=False, choices=[('', 'Choose a category...')] + list(Job.JOB_TYPE_CHOICES), widget=forms.Select(attrs={
-        'class': 'search-select'
-    }))
+    job_type = forms.ChoiceField(required=False, choices=[('', 'Choose a category...')] + list(Job.JOB_TYPE_CHOICES),
+                                 widget=forms.Select(attrs={
+                                     'class': 'search-select'
+                                 }))
 
 
 COUNTRIES = [
@@ -121,7 +111,9 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'phone_number', 'country', 'gender', 'password1', 'password2', 'is_recruiter')
+        fields = (
+        'username', 'first_name', 'last_name', 'email', 'phone_number', 'country', 'gender', 'password1', 'password2',
+        'is_recruiter')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -141,7 +133,59 @@ class SignUpForm(UserCreationForm):
 class EnvironmentalInitiativeForm(forms.ModelForm):
     start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     end_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
+
     class Meta:
         model = EnvironmentalInitiative
         fields = ['title', 'description', 'start_date', 'end_date', 'location', 'company']
 
+
+class FAQForm(forms.ModelForm):
+    first_name = forms.CharField(label='First Name', max_length=100,
+                                 widget=forms.TextInput(attrs={'placeholder': 'Enter your first name'}))
+    last_name = forms.CharField(label='Last Name', max_length=100,
+                                widget=forms.TextInput(attrs={'placeholder': 'Enter your last name'}))
+    email = forms.EmailField(label='Email Address',
+                             widget=forms.EmailInput(attrs={'placeholder': 'Enter your email address'}))
+
+    class Meta:
+        model = FAQ
+        fields = ['question']
+
+
+class AnswerFAQForm(forms.ModelForm):
+    class Meta:
+        model = FAQ
+        fields = ['answer']
+        widgets = {
+            'answer': forms.Textarea(attrs={'rows': 4}),
+        }
+
+
+class EcoSurveyForm(forms.ModelForm):
+    class Meta:
+        model = EcoSurvey
+        fields = [
+            'energy_efficiency',
+            'waste_management',
+            'sustainable_sourcing',
+            'water_conservation',
+            'employee_training',
+            'green_certifications',
+            'carbon_footprint',
+            'renewable_energy'
+        ]
+        labels = {
+            'energy_efficiency': 'How would you rate your company’s energy efficiency practices (0-10)?',
+            'waste_management': 'How effective is your waste management strategy (0-10)?',
+            'sustainable_sourcing': 'Rate your sustainable sourcing efforts (0-10).',
+            'water_conservation': 'How would you rate your water conservation practices (0-10)?',
+            'employee_training': 'Rate the effectiveness of employee training on sustainability (0-10).',
+            'green_certifications': 'How many green certifications does your company have (0-10)?',
+            'carbon_footprint': 'How successful has your company been in reducing its carbon footprint (0-10)?',
+            'renewable_energy': 'Rate your company’s use of renewable energy sources (0-10).',
+        }
+
+
+
+class SelectCompanyForm(forms.Form):
+    company = forms.ModelChoiceField(queryset=Company.objects.all(), label="Select Company")

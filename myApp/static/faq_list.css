@@ -1,0 +1,36 @@
+.accordion {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 100px auto 100px auto;
+    color: green;
+}
+
+.accordion-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.accordion-button {
+    background-color: green;
+    border: none;
+    padding: 15px;
+    text-align: left;
+    outline: none;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease;
+}
+
+.accordion-button:hover {
+    background-color: #ccc;
+}
+
+.accordion-content {
+    padding: 15px;
+
+    overflow: hidden;
+    background-color: white;
+}
+
+.accordion-content p {
+    margin: 0;
+}
