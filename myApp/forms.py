@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Job, Company, Application, Profile, EnvironmentalInitiative, FAQ, EcoSurvey
+from .models import Job, Company, Application, Profile, EnvironmentalInitiative, FAQ, EcoSurvey, Blog, Comment
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Job, Company, Application, Profile, ApplicationReview
 
@@ -112,8 +112,9 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
-        'username', 'first_name', 'last_name', 'email', 'phone_number', 'country', 'gender', 'password1', 'password2',
-        'is_recruiter')
+            'username', 'first_name', 'last_name', 'email', 'phone_number', 'country', 'gender', 'password1',
+            'password2',
+            'is_recruiter')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -129,7 +130,13 @@ class SignUpForm(UserCreationForm):
         return user
 
 
-# forms.py
+class CustomLoginForm(AuthenticationForm):
+    remember_me = forms.BooleanField(required=False, widget=forms.CheckboxInput())
+
+    class Meta:
+        fields = ['username', 'password', 'remember_me']
+
+
 class EnvironmentalInitiativeForm(forms.ModelForm):
     start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     end_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False)
@@ -186,6 +193,14 @@ class EcoSurveyForm(forms.ModelForm):
         }
 
 
-
 class SelectCompanyForm(forms.Form):
     company = forms.ModelChoiceField(queryset=Company.objects.all(), label="Select Company")
+
+
+class BlogForm(forms.Form):
+    title = forms.CharField(max_length=255, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))

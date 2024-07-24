@@ -3,7 +3,6 @@ from django.conf.urls.static import static
 from django.urls import path
 from . import views
 
-
 app_name = 'myApp'
 urlpatterns = [
     path('', views.home, name='home'),
@@ -32,7 +31,9 @@ urlpatterns = [
     path('eco-survey/<int:company_id>/', views.eco_survey, name='eco-survey'),
     path('select-company/', views.select_company_for_eco_verification, name='select_company'),
     path('get-companies/', views.get_companies, name='get_companies'),
-
+    path('blogs/', views.blog_list, name='blog_list'),
+    path('blogs/create/', views.create_blog, name='create_blog'),
+    path('blogs/<int:pk>/', views.blog_detail, name='blog_detail'),
     # Add more paths for other pages as needed
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

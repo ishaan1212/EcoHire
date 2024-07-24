@@ -1,4 +1,5 @@
-
+from datetime import timezone
+from django.contrib.auth.forms import UserCreationForm
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
@@ -50,7 +51,6 @@ class Job(models.Model):
 
 
 class Application(models.Model):
-
     STATUS_CHOICES = [
         ('P', 'Pending'),
         ('A', 'Accepted'),
@@ -153,16 +153,33 @@ class EcoSurvey(models.Model):
     @property
     def total_score(self):
         return (
-            self.energy_efficiency +
-            self.waste_management +
-            self.sustainable_sourcing +
-            self.water_conservation +
-            self.employee_training +
-            self.green_certifications +
-            self.carbon_footprint +
-            self.renewable_energy
+                self.energy_efficiency +
+                self.waste_management +
+                self.sustainable_sourcing +
+                self.water_conservation +
+                self.employee_training +
+                self.green_certifications +
+                self.carbon_footprint +
+                self.renewable_energy
         )
 
 
+class Blog(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    author = models.CharField(max_length=50, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
 
 
+class Comment(models.Model):
+    blog = models.ForeignKey(Blog, related_name='comments', on_delete=models.CASCADE)
+    author = models.CharField(max_length=100)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comment by {self.author}'

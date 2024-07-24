@@ -41,9 +41,7 @@
                                 </div>
                             {% endif %}
                                 <p class="card-text"><small class="text-muted">Posted on: {{ job.published_at }}</small></p>
-                                {% if user.profile.isnot_recruiter %}
-                                    <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary apply-button">Apply Now</a>
-                                {% endif %}
+                                <a href="{% url 'myApp:apply_job' job_id=job.id %}" class="btn btn-primary apply-button">Apply Now</a>
                             </div>
                         </div>
                     </div>

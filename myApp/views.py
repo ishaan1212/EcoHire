@@ -8,13 +8,13 @@ from django.utils.timezone import now
 from django.views.generic import UpdateView
 
 from .forms import JobForm, CompanyForm, JobSearchForm, ApplicationForm, EnvironmentalInitiativeForm, FAQForm, \
-    AnswerFAQForm, EcoSurveyForm, SelectCompanyForm
-from myApp.models import Job, Application, Profile, Company, EnvironmentalInitiative, UserContribution, Company,  FAQ
+    AnswerFAQForm, EcoSurveyForm, SelectCompanyForm, BlogForm, CommentForm
+from myApp.models import Job, Application, Profile, Company, EnvironmentalInitiative, UserContribution, Company, FAQ, Blog, Comment
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, CustomLoginForm
 
 from myApp.forms import ProfileForm
 from myApp.models import Job
@@ -28,7 +28,6 @@ from django.conf import settings
 
 # Create your views here.
 def home(request):
-
     form = JobSearchForm(request.GET)
     jobs = Job.objects.all()  # Default queryset
     jobs_count = Job.objects.count()
@@ -76,6 +75,7 @@ def home(request):
     }
     return render(request, 'myApp/home.html', context)
 
+
 def jobs(request):
     jobs_lists = Job.objects.all()
     context = {
@@ -83,6 +83,7 @@ def jobs(request):
         'jobs_lists': jobs_lists,
     }
     return render(request, 'myApp/jobs.html', context)
+
 
 def addJob(request):
     if request.method == 'POST':
@@ -93,6 +94,7 @@ def addJob(request):
     else:
         form = JobForm()
     return render(request, 'job/add_job.html', {'form': form})
+
 
 
 def addCompany(request):
@@ -269,6 +271,7 @@ def profile(request):
     return render(request, 'myApp/user_profile.html', context)
 
 
+
 @login_required
 def initiatives_list(request):
     initiatives = EnvironmentalInitiative.objects.all()
@@ -414,3 +417,49 @@ def select_company_for_eco_verification(request):
 def get_companies(request):
     companies = Company.objects.all().values('id', 'name')
     return JsonResponse({'companies': list(companies)})
+
+
+def blog_list(request):
+    blogs = Blog.objects.all()
+    return render(request, 'myApp/blog.html', {'blogs': blogs})
+
+
+@login_required
+def create_blog(request):
+    if request.method == 'POST':
+        form = BlogForm(request.POST)
+        if form.is_valid():
+            blog = Blog(
+                title=form.cleaned_data['title'],
+                content=form.cleaned_data['content'],
+                author=request.user  # Set the author to the logged-in user
+            )
+            blog.save()
+            return redirect('myApp:blog_list')
+    else:
+        form = BlogForm()
+    return render(request, 'myApp/create_blog.html', {'form': form})
+
+
+@login_required
+def blog_detail(request, pk):
+    blog = get_object_or_404(Blog, pk=pk)
+    comments = Comment.objects.filter(blog=blog)
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = Comment(
+                content=comment_form.cleaned_data['comment'],
+                author=request.user,  # Set the author to the logged-in user
+                blog=blog
+            )
+            comment.save()
+            return redirect('myApp:blog_detail', pk=blog.pk)
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'myApp/blog_detail.html', {
+        'blog': blog,
+        'comments': comments,
+        'comment_form': comment_form
+    })

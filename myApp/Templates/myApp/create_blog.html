@@ -1,0 +1,17 @@
+{% extends 'myApp/base.html' %}
+{% load static %}
+
+{% block title %}Create Blog{% endblock %}
+
+{% block content %}
+<section class="create-blog py-5">
+    <div class="container mt-5">
+        <h3 class="mb-4">Create a New Blog</h3>
+        <form method="post" class="shadow-sm p-4 bg-white rounded">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-3">Create Blog</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
